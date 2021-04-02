@@ -1,6 +1,7 @@
-$\cdot$ RGB Colors 
-$\cdot$ Input Data Audio files
-$\cdot$ Syntax fftw3 library 
-    $\cdot$ fftw_plan
-    $\cdot$ fftw_plan_dft_1d
-$\cdot$ How the heck are we supposed to process the data?
+RGB Colors 
+Input Data Audio files
+Syntax fftw3 library 
+    fftw_plan
+    fftw_plan_dft_1d
+How the heck are we supposed to process the data?
+sem_t
