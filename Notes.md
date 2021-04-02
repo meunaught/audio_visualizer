@@ -6,3 +6,4 @@
 * How the heck are we supposed to process the data? (idek man)
 * sem_t, sem_wait (https://pubs.opengroup.org/onlinepubs/009695399/basedefs/semaphore.h.html , whatever this is) 
 * pthread_t (https://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread.h.html)
+* Modular Coding using header files
