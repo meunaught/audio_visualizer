@@ -1,1 +1,1 @@
-# fft_visualizer
+# fft_musicvisualizer
