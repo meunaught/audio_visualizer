@@ -35,7 +35,7 @@ bool init() {
             printf("video and timer: %s\n",SDL_GetError());
             return false;
       }
-      win = SDL_CreateWindow("SEx",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+      win = SDL_CreateWindow("Music_Visualizer",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
       if (!win) {
             printf("window: %s\n",SDL_GetError());
             SDL_Quit();
@@ -72,6 +72,7 @@ void quit() {
 
 int main() {
       srand(time(0));
+      printf("Please enter the song name which is in the cwd: ");
       char *song; 
       song = (char *) malloc(sizeof(char) * 100);
       scanf("%s", song);
