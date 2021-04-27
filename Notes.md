@@ -1,4 +1,4 @@
-* RGB Colors (Understand what the guy wrote)
+* RGB Colors 
 * Input Data Audio files (https://wiki.libsdl.org/SDL_LoadWAV && try to understand what SDL_AudioSpec is) 
 * Syntax fftw3 library (http://www.fftw.org/fftw3_doc/FFTW-Reference.html for reference)
     * fftw_plan
