@@ -4,5 +4,5 @@
   * Others : Please check the requirements on their websites
   * Windows is not supported :)
 * Compile Commands : g++ fileName.cpp -lSDL2 -lSDL2_image -lfftw3 -o fileName
-* Input : The name of 
+* Input : The name of the song that you want to play
 * P.S. Please make sure that you're inputing the correct filename with the correct extension(which is .wav if you are wondering :))
