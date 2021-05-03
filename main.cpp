@@ -3,8 +3,9 @@
 int main(int argc, char *argv[]) {
       srand(time(0));
       char *songName = NULL; 
-	int opt = 0;
-	while((opt = getopt(argc, argv, "f:")) != -1) {
+	
+      int opt = 0;
+	while ((opt = getopt(argc, argv, "f:")) != -1) {
 		switch (opt) {
 		case 'f':
 			songName = optarg;
@@ -15,6 +16,7 @@ int main(int argc, char *argv[]) {
 			break;
 		}
 	}
+      
       screen window;
       complexData data(SIZE);
 
@@ -22,6 +24,7 @@ int main(int argc, char *argv[]) {
             puts("Failed to initialize");
             exit(0);
       }
+
       audioData song(songName);
 
       bool playing = true, mode = true, pause = true;
@@ -33,14 +36,14 @@ int main(int argc, char *argv[]) {
 
             getAudioData(song, data);
 
-            if(mode) visualizeWave(window, data);
+            if (mode) visualizeWave(window, data);
             else visualizeBars(window, data);
                   
             SDL_RenderPresent(window.rend);
             SDL_Delay(75);
 
             while (SDL_PollEvent(&event)) {
-                  if(event.type == SDL_QUIT) {
+                  if (event.type == SDL_QUIT) {
                         playing = false;
                   }
                   if (event.type == SDL_KEYDOWN) {
