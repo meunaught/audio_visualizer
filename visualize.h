@@ -5,5 +5,4 @@
 
 void visualizeWave(screen &window, const complexData &data);
 void visualizeBars(screen &window, const complexData &data);
-
 #endif
