@@ -3,21 +3,27 @@
 void visualizeWave(screen &window, const complexData &data) {
 	SDL_SetRenderDrawColor(window.rend, 0, 0, 0, 0);
 	SDL_RenderClear(window.rend);
+	
 	SDL_Point *wave;
 	wave = (SDL_Point *) malloc(sizeof(SDL_Point) * SIZE);
+	
 	SDL_SetRenderDrawColor(window.rend, 255, 0, 0, 255);
+	
 	int move = 0;
 	for (int start = 0; start <= 4; ++start) {
 		for (int i = move; i < SIZE - move; ++i) {
 			wave[i].x = i * FIT_FACTOR;
 			wave[i].y = (WINDOW_HEIGHT / 2 - data.in[i][0] * 2 + start);
 		}
+		
 		SDL_RenderDrawLines(window.rend, wave, SIZE);
+		
 		for (int i = move; i < SIZE - move; ++i) {
 			wave[i].x = i * FIT_FACTOR;
 			wave[i].y = WINDOW_HEIGHT / 2 - data.in[i][0] * 2 - start;
 		}
 		move += 5;
+		
 		SDL_RenderDrawLines(window.rend, wave, SIZE);
 	}
 }
