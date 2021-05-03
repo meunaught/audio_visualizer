@@ -1,2 +1,1 @@
-all:
-	g++ *.cpp -lSDL2 -lfftw3 -o musico
+all: g++ *.cpp -lSDL2 -lfftw3 -o musico
