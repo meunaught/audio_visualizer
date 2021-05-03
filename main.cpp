@@ -6,16 +6,16 @@ int main(int argc, char *argv[]) {
 	
       int opt = 0;
       while ((opt = getopt(argc, argv, "f:")) != -1) {
-		switch (opt) {
-		case 'f':
-			songName = optarg;
-			break;
-		default:
-			puts("NO FILE SPECIFIED");
-			return 0;
-			break;
-		}
-	}
+            switch (opt) {
+            case 'f':
+                  songName = optarg;
+                  break;
+            default:
+                  puts("NO FILE SPECIFIED");
+                  return 0;
+                  break;
+            }
+      }
       
       screen window;
       complexData data(SIZE);
