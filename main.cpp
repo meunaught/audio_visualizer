@@ -5,7 +5,7 @@ int main(int argc, char *argv[]) {
       char *songName = NULL; 
 	
       int opt = 0;
-	while ((opt = getopt(argc, argv, "f:")) != -1) {
+      while ((opt = getopt(argc, argv, "f:")) != -1) {
 		switch (opt) {
 		case 'f':
 			songName = optarg;
