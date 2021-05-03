@@ -81,6 +81,6 @@ struct rgb {
 };
 
 bool init(screen &window);
-void getAudioData(audioData song, complexData &data); // have to be implemented
+void getAudioData(audioData song, complexData &data); // has to be implemented
 
 #endif
