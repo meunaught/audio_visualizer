@@ -36,7 +36,7 @@ struct audioData {
       SDL_AudioDeviceID deviceId;
 
       audioData(char *s) {
-            if(NULL == SDL_LoadWAV(s, &wavSpec, &wavBuffer, &wavLength)) {
+            if (NULL == SDL_LoadWAV(s, &wavSpec, &wavBuffer, &wavLength)) {
                   puts("NO SUCH FILE EXISTS");
                   SDL_Quit();
                   exit(0);
