@@ -6,4 +6,4 @@
 * Compile Commands : 
   * ```make``` 
   * ```./musico -f Song_Name.wav```
-* P.S. Please make sure that you're inputing the correct filename with the correct extension (which is .wav if you are wondering :))
+* P.S. Please make sure that you're inputing the correct filename with the correct extension (which is ```.wav``` if you are wondering :))
