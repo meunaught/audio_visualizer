@@ -5,5 +5,5 @@
   * Windows is not supported :)
 * Compile Commands : 
   * make 
-  * ```cpp ./musico -f Song_Name.wav```
+  * ```./musico -f Song_Name.wav```
 * P.S. Please make sure that you're inputing the correct filename with the correct extension (which is .wav if you are wondering :))
