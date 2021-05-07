@@ -1,74 +1,33 @@
-#include "visualize.h"
+#include "utils.h"
 
 int main(int argc, char *argv[]) {
-      srand(time(0));
-      char *songName = NULL; 
-	
-      int opt = 0;
-      while ((opt = getopt(argc, argv, "f:")) != -1) {
-            switch (opt) {
+      int option_index = 0, useMode = 2;
+      char *file_stream = NULL;
+
+      while ((option_index = getopt(argc, argv, ":f:R")) != -1) {
+            switch (option_index) {
             case 'f':
-                  songName = optarg;
+                  file_stream = optarg;
+                  useMode = 1;
+                  break;
+            case 'R':
+                  useMode = 3;
                   break;
             default:
-                  puts("NO FILE SPECIFIED");
-                  return 0;
                   break;
             }
       }
-      
-      screen window;
-      complexData data(SIZE);
 
-      if (!init(window)) {
-            puts("Failed to initialize");
-            exit(0);
+      if(!init()) {
+            printf("%s\n", SDL_GetError());
+            exit(1);
       }
 
-      audioData song(songName);
 
-      bool playing = true, mode = true, pause = true;
+      if(useMode == 1) musicMode(file_stream);
+	else if(useMode == 2) recordMode();
+      else if(useMode == 3) realTimeMode();
 
-      song.play(pause);
-
-      while (playing) {
-            SDL_Event event;
-
-            getAudioData(song, data);
-
-            if (mode) visualizeWave(window, data);
-            else visualizeBars(window, data);
-                  
-            SDL_RenderPresent(window.rend);
-            SDL_Delay(75);
-
-            while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) {
-                        playing = false;
-                  }
-                  if (event.type == SDL_KEYDOWN) {
-                        switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:
-                              playing = false;
-                              break;
-                        case SDLK_m:
-                              mode ^= 1;
-                              break;
-                        case SDLK_p:
-                              pause ^= 1;
-                              song.play(pause);
-                              break;
-                        default:
-                              break;
-                        }
-                  }
-            }
-      }
-
-      window.quit();
-      data.quit();
-      song.quit();
-      SDL_Quit();
-
+      quit();
       return 0;
 }
