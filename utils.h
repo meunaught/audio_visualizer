@@ -3,7 +3,6 @@
 
 #include <fftw3.h>
 #include <SDL2/SDL.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include <getopt.h>
@@ -18,6 +17,8 @@ const int DISTANCE = 16;
 const int FIT_FACTOR = 30;
 const int NSAMPLES = 2048;
 const int MAX_RECORDING_SECONDS = 600;
+
+#define max(a, b) a > b ? a : b
 
 struct complexData {
 	fftw_plan plan;
@@ -44,18 +45,18 @@ struct WavData {
       SDL_AudioFormat format;
 };
 
-void clearRenderer();//
-bool init();//
-void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecordingSpec);//
-double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format);//
-void visualizerOutput(Uint8 *stream, SDL_AudioFormat format);//
-void wavCallBack(void *userData, Uint8 *stream, int len);//
+void clearRenderer();
+bool init();
+void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecordingSpec);
+double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format);
+void visualizerOutput(Uint8 *stream, SDL_AudioFormat format);
+void wavCallBack(void *userData, Uint8 *stream, int len);
 void RealTimeCallBack(void *userdata, Uint8 *stream, int len);
 void RecordingCallBack(void *userdata, Uint8 *stream, int len);
 void PlaybackCallBack(void *userdata, Uint8 *stream, int len);
-void changeMode();//
-void setDefaultSpec(SDL_AudioSpec &spec);//
-void musicMode(const char *file_stream);//
+void changeMode();
+void setDefaultSpec(SDL_AudioSpec &spec);
+void musicMode(const char *file_stream);
 void realTimeMode();
 void startRecording();
 void playRecordedData();

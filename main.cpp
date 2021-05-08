@@ -18,15 +18,14 @@ int main(int argc, char *argv[]) {
             }
       }
 
-      if(!init()) {
+      if (!init()) {
             printf("%s\n", SDL_GetError());
             exit(1);
       }
 
-
-      if(useMode == 1) musicMode(file_stream);
-	else if(useMode == 2) recordMode();
-      else if(useMode == 3) realTimeMode();
+      if (useMode == 1) musicMode(file_stream);
+      else if (useMode == 2) recordMode();
+      else if (useMode == 3) realTimeMode();
 
       quit();
       return 0;

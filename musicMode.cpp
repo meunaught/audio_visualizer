@@ -47,28 +47,28 @@ void musicMode(const char *file_stream) {
       wav_spec.callback = wavCallBack;
       wav_spec.userdata = audio;
       audio -> format = wav_spec.format;
-      SDL_AudioDeviceID playDeviceId=0;
+      SDL_AudioDeviceID playDeviceId = 0;
       playDeviceId = SDL_OpenAudioDevice(NULL, 0, &wav_spec, &obtained, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
 
-	if(playDeviceId == 0) {
+	if (playDeviceId == 0) {
             printf("Failed to open recording device! SDL Error: %s", SDL_GetError());
             exit(1);
       }
 
       SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
-      int quit=0,pause=0;
-      while(!quit){
+      bool quit = false, pause = false;
+      while (!quit) {
             SDL_Event event;
-            while(SDL_PollEvent(&event)){
-                 if(event.type == SDL_QUIT) quit = true;
-                 if(event.type==SDL_KEYDOWN){
+            while (SDL_PollEvent(&event)) {
+                 if (event.type == SDL_QUIT) quit = true;
+                 if (event.type == SDL_KEYDOWN) {
                         switch (event.key.keysym.sym){
                         case SDLK_p:
-                              pause^=1;
+                              pause ^= 1;
                               SDL_PauseAudioDevice(playDeviceId, pause);
                               break;
                         case SDLK_q:
-                              quit=1;
+                              quit = 1;
                               break;
                         case SDLK_m:
                               changeMode();
