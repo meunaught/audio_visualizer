@@ -110,21 +110,21 @@ void recordMode() {
                         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n) {
                               currentState = 1;
                               createDefaultRecData(MAX_RECORDING_SECONDS, ReceivedRecordingSpec);
-    	                        SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
+                              SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
                         }
                         else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) currentState++;
                   }
                   else if (currentState == 3) {
-				recData.BufferBytePosition = 0;
+                        recData.BufferBytePosition = 0;
                         SDL_PauseAudioDevice(playbackDeviceId, SDL_FALSE);
                         currentState++;
                   }
                   else if (currentState == 5) {
                         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n) {
-				      currentState = 1;
-                    		clearRenderer();
+                              currentState = 1;
+                              clearRenderer();
                               createDefaultRecData(MAX_RECORDING_SECONDS, ReceivedRecordingSpec);
-    	                        SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
+                              SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
                         }
                         else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_r) currentState = 3;
                         else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_q) quit = true;
@@ -135,7 +135,7 @@ void recordMode() {
                   SDL_LockAudioDevice(recordingDeviceId);
                   if (recData.BufferBytePosition > recData.BufferByteMaxPosition) {
                         outter:
-				recData.BufferByteMaxPosition = recData.BufferBytePosition;
+                        recData.BufferByteMaxPosition = recData.BufferBytePosition;
                         puts("RECORDED");
                         SDL_PauseAudioDevice(recordingDeviceId, SDL_TRUE);
                         currentState++;
@@ -152,6 +152,6 @@ void recordMode() {
             }
       }
 	
-	SDL_CloseAudioDevice(recordingDeviceId);
-	SDL_CloseAudioDevice(playbackDeviceId);
+      SDL_CloseAudioDevice(recordingDeviceId);
+      SDL_CloseAudioDevice(playbackDeviceId);
 }
