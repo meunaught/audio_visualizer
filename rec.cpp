@@ -102,10 +102,10 @@ void recordMode() {
                         }
                   }
                   else if (currentState == 1 && (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)) goto outter;
-			else if (currentState == 1 && (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p)) {
-				pause ^= 1;
-				SDL_PauseAudioDevice(recordingDeviceId,pause);
-			}
+                  else if (currentState == 1 && (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p)) {
+                        pause ^= 1;
+                        SDL_PauseAudioDevice(recordingDeviceId,pause);
+                  }
                   else if (currentState == 2) {
                         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n) {
                               currentState = 1;
