@@ -1,11 +1,10 @@
 #include "utils.h"
 
-
 void setDefaultSpec(SDL_AudioSpec &spec) {
       SDL_zero(spec);
-      spec.freq = SAMPLE_RATE;
+      spec.freq = RATE;
       spec.channels = 2;
-      spec.samples = NSAMPLES;
+      spec.samples = SAMPLES;
       spec.format = AUDIO_S16;
 }
 

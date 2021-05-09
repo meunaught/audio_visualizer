@@ -8,15 +8,17 @@
 #include <getopt.h>
 #include <assert.h>
 
-const int WIDTH = 800;
-const int HEIGHT = 600;
-const int SAMPLE_RATE = 44100;
+const int WINDOW_WIDTH = 800;
+const int WINDOW_HEIGHT = 600;
+const int RATE = 44100;
 const int BARS = 60;
 const int THICKNESS = 15;
-const int DISTANCE = 16;
-const int FIT_FACTOR = 30;
-const int NSAMPLES = 2048;
+const int DIST = 16;
+const int SCALE = 30;
+const int VSCALE = 70;
+const int SAMPLES = 2048;
 const int MAX_RECORDING_SECONDS = 600;
+const double pi = acos(-1);
 
 #define max(a, b) a > b ? a : b
 
@@ -43,6 +45,29 @@ struct WavData {
       Uint8 *Buffer;
       Uint32 BufferByteSize;
       SDL_AudioFormat format;
+};
+
+struct rgb {
+      double r, g, b;
+      rgb(double h) {
+            double val = (1 - abs(fmod(h / 60.0, 2) - 1));
+            if (h >= 0 && h < 60) {
+                  r = 1, g = val, b = 0;
+            } else if (h >= 60 && h < 120) {
+                  r = val, g = 1, b = 0;
+            } else if (h >= 120 && h < 180) {
+                  r = 0, g = 1, b = val;
+            } else if (h >= 180 && h < 240) {
+                  r = 0, g = val, b = 1;
+            } else if (h >= 240 && h < 300) {
+                  r = val, g = 0, b = 1;
+            } else{
+                  r = 1, g = 0, b = val;
+            }
+            r *= 255.0;
+            g *= 255.0;
+            b *= 255.0;
+      }
 };
 
 void clearRenderer();

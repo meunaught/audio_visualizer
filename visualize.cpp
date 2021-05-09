@@ -3,7 +3,7 @@
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 
-complexData data(NSAMPLES);
+complexData data(SAMPLES);
 
 bool MODE = true;
 
@@ -16,7 +16,7 @@ void clearRenderer() {
 bool init() {
       if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1) return false;
       
-      window = SDL_CreateWindow("Musico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
+      window = SDL_CreateWindow("Musico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
       if (window == NULL) return false;
       
       renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -28,7 +28,7 @@ bool init() {
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
       Uint16 val = 0x0;
 
-      if (SDL_AUDIO_ISLITTLEENDIAN(format)) val = (uint16_t)bytebuffer[0] | ((uint16_t)bytebuffer[1] << 8);
+      if (!SDL_AUDIO_ISBIGENDIAN(format)) val = (uint16_t)bytebuffer[0] | ((uint16_t)bytebuffer[1] << 8);
       else val = ((uint16_t)bytebuffer[0] << 8) | (uint16_t)bytebuffer[1];
 
       if (SDL_AUDIO_ISSIGNED(format)) return ((int16_t)val) / 32768.0;
@@ -37,18 +37,22 @@ double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
 }
 
 void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
-      double MAX[BARS], freq_bin[BARS + 1];
-      double CONSTANT = (double) NSAMPLES / WIDTH, freq;
-      int startx = 0, starty = HEIGHT;
+      double *MAX, *actFreq;
+      MAX = (double *) malloc(sizeof(double) * BARS);
+      actFreq = (double *) malloc(sizeof(double) * (BARS + 1));
+
+      double CONSTANT = (double) SAMPLES / WINDOW_WIDTH, freq;
+      static int start = 150;
 
       for (int i = 0; i < BARS; i++) {
             MAX[i] = 0;
-            freq_bin[i] = i * (SAMPLE_RATE / NSAMPLES) + i;
+            actFreq[i] = i * (RATE / SAMPLES) + i;
       }
-      freq_bin[BARS] = SAMPLE_RATE / 2;
+      actFreq[BARS] = RATE / 2;
       
-      for (int i = 0; i < NSAMPLES; i++) {
-            double multiplier = 0.5 * (1 - cos(2 * M_PI * i / NSAMPLES));
+      for (int i = 0; i < SAMPLES; i++) {
+            double multiplier = sin(pi * i / SAMPLES);
+            multiplier *= multiplier;
 
             data.in[i][0] = Get16bitAudioSample(stream, format) * multiplier;
             data.in[i][1] = 0.0;
@@ -58,43 +62,48 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       if (MODE) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
             SDL_RenderClear(renderer);
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            rgb col(start);
+            SDL_SetRenderDrawColor(renderer, col.r, col.g, col.b, 255);
             SDL_Point *wave;
-            wave = (SDL_Point*) malloc(sizeof(SDL_Point) * NSAMPLES);
-            for (int i = 0; i < NSAMPLES; i++) {
+            wave = (SDL_Point*) malloc(sizeof(SDL_Point) * SAMPLES);
+            for (int i = 0; i < SAMPLES; i++) {
                   wave[i].x = i / CONSTANT;
-                  wave[i].y = 300 - data.in[i][0] * 70;
+                  wave[i].y = WINDOW_HEIGHT / 2 - data.in[i][0] * VSCALE;
             }
-            SDL_RenderDrawLines(renderer, wave, NSAMPLES);
+            SDL_RenderDrawLines(renderer, wave, SAMPLES);
       }
       else {
             fftw_execute(data.plan);
 
-            for (int j = 0; j < NSAMPLES / 2; j++) {
+            for (int j = 0; j < SAMPLES / 2; j++) {
                   double real = data.out[j][0];
                   double imaginary = data.out[j][1];
 
                   double magnitude = sqrt((real * real) + (imaginary * imaginary));
 
-                  freq = j * ((double)SAMPLE_RATE / NSAMPLES);
+                  freq = j * ((double)RATE / SAMPLES);
 
-                  for (int i = 0; i < BARS; i++)
-                        if ((freq > freq_bin[i]) && (freq <= freq_bin[i + 1]))
+                  for (int i = 0; i < BARS; i++) {
+                        if ((freq > actFreq[i]) && (freq <= actFreq[i + 1]))
                               MAX[i] = max(MAX[i], magnitude);
+                  }
             }
 
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
             SDL_RenderClear(renderer);
 
             for (int i = 0; i < BARS; i++) {
-                  SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+                  rgb col((start + i * 2) % 360);
+                  SDL_SetRenderDrawColor(renderer, col.r, col.g, col.b, 255);
 
                   if (MAX[i] > 2.0) MAX[i] = log(MAX[i]);
 
-                  for (int j = 0; j < THICKNESS; j++)
-                        SDL_RenderDrawLine(renderer, (i * DISTANCE + j), HEIGHT, (i * DISTANCE + j), HEIGHT - (FIT_FACTOR * MAX[i]));
+                  for (int j = 0; j < THICKNESS; j++) {
+                        SDL_RenderDrawLine(renderer, (i * DIST + j), WINDOW_HEIGHT, (i * DIST + j), WINDOW_HEIGHT - (SCALE * MAX[i]));
+                  }
             }
       }
+      start = (start + 1) % 360;
       SDL_RenderPresent(renderer);
 }
 
