@@ -36,7 +36,7 @@ void musicMode(const char *file_stream) {
       WavData *audio = (WavData *) malloc(sizeof(WavData));
 
       if (SDL_LoadWAV(file_stream, &wav_spec, &wav_buffer, &wav_length) == NULL) {
-            fprintf(stderr, "impossibile aprire il file wav: %s\n", SDL_GetError());
+            fprintf(stderr, "FILE ERROR: %s\n", SDL_GetError());
             exit(1);
       }
 
