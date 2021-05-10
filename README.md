@@ -1,7 +1,7 @@
 # audio_visualizer
 * Library Pre-requisites : 
   * Debian Based Distributions : ```libsdl2-dev``` ```libfftw3-dev```
-  * Special Note: Make sure you GLIB_C2.29 or above
+  * Special Note: Make sure you GLIB_C2.29 or above (comes preinstalled from Ubuntu_19.04 onwards)
   * Others : Please check the requirements on their websites
   * Windows is not supported :)
 * Compile Commands : 
