@@ -1,6 +1,7 @@
 # audio_visualizer
 * Library Pre-requisites : 
   * Debian Based Distributions : ```libsdl2-dev``` ```libfftw3-dev```
+  * Special Note: Make sure you GLIB_C2.29 or above
   * Others : Please check the requirements on their websites
   * Windows is not supported :)
 * Compile Commands : 
