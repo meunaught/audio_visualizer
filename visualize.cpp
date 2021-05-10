@@ -28,7 +28,7 @@ bool init() {
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
       Uint16 val = 0x0;
       int32_t mask = 1 << 15;
-      
+
       if (format & 1 << 12) val = ((uint16_t)bytebuffer[0] << 8) | (uint16_t)bytebuffer[1];
       else val = (uint16_t)bytebuffer[0] | ((uint16_t)bytebuffer[1] << 8);
 
@@ -106,6 +106,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       }
       start = (start + 1) % 360;
       SDL_RenderPresent(renderer);
+      free(MAX), free(actFreq);
 }
 
 void changeMode() {
