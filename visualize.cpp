@@ -27,13 +27,14 @@ bool init() {
 
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
       Uint16 val = 0x0;
+      int32_t mask = 1 << 15;
+      
+      if (format & 1 << 12) val = ((uint16_t)bytebuffer[0] << 8) | (uint16_t)bytebuffer[1];
+      else val = (uint16_t)bytebuffer[0] | ((uint16_t)bytebuffer[1] << 8);
 
-      if (!SDL_AUDIO_ISBIGENDIAN(format)) val = (uint16_t)bytebuffer[0] | ((uint16_t)bytebuffer[1] << 8);
-      else val = ((uint16_t)bytebuffer[0] << 8) | (uint16_t)bytebuffer[1];
+      if (format & 1 << 15) return ((int16_t)val) / (double) (mask);
 
-      if (SDL_AUDIO_ISSIGNED(format)) return ((int16_t)val) / 32768.0;
-
-      return val / 65535.0;
+      return val / (double) ((mask << 1) - 1);
 }
 
 void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
