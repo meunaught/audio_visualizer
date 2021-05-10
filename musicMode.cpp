@@ -11,7 +11,7 @@ void setDefaultSpec(SDL_AudioSpec &spec) {
 void wavCallBack(void *userData, Uint8 *stream, int len) {
       WavData *audio = (WavData *) userData;
       if (audio -> BufferByteSize == 0) return;
-
+      
       Uint32 length = len;
       visualizerOutput(stream, audio->format);
 
@@ -55,12 +55,12 @@ void musicMode(const char *file_stream) {
       }
 
       SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
-      bool quit = false, pause = false;
+      bool quit = false, pause = false, stop = false;
       while (!quit) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                 if (event.type == SDL_QUIT) quit = true;
-                 if (event.type == SDL_KEYDOWN) {
+                  if (event.type == SDL_QUIT) quit = true;
+                  if (event.type == SDL_KEYDOWN) {
                         switch (event.key.keysym.sym){
                         case SDLK_p:
                               pause ^= 1;
@@ -72,10 +72,26 @@ void musicMode(const char *file_stream) {
                         case SDLK_m:
                               changeMode();
                               break;
+                        case SDLK_r:
+                              if (stop) {
+                                    stop = false;
+                                    audio -> Buffer = wav_buffer;
+                                    audio -> BufferByteSize = wav_length;
+                                    setDefaultSpec(wav_spec);
+                                    wav_spec.callback = wavCallBack;
+                                    wav_spec.userdata = audio;
+                                    audio -> format = wav_spec.format;
+                                    playDeviceId = SDL_OpenAudioDevice(NULL, 0, &wav_spec, &obtained, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+                                    SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
+                              }
                         default:
                              break;
                         }
-                 }
+                  }
+            }
+            if (((WavData *)wav_spec.userdata) -> BufferByteSize == 0) {
+                  SDL_PauseAudioDevice(playDeviceId, true);
+                  stop = true;
             }
       }
       SDL_FreeWAV(wav_buffer);

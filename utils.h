@@ -2,7 +2,7 @@
 #define UTILS_H
 
 #include <fftw3.h>
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 #include <stdio.h>
 #include <math.h>
 #include <getopt.h>
@@ -15,7 +15,7 @@ const int BARS = 60;
 const int THICKNESS = 15;
 const int DIST = 16;
 const int SCALE = 30;
-const int VSCALE = 70;
+const int VSCALE = 100;
 const int SAMPLES = 2048;
 const int MAX_RECORDING_SECONDS = 600;
 const double pi = acos(-1);
