@@ -73,16 +73,16 @@ struct rgb {
 
 void clearRenderer();
 bool init();
-void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecordingSpec);
-double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format);
-void visualizerOutput(Uint8 *stream, SDL_AudioFormat format);
-void wavCallBack(void *userData, Uint8 *stream, int len);
-void RealTimeCallBack(void *userdata, Uint8 *stream, int len);
-void RecordingCallBack(void *userdata, Uint8 *stream, int len);
-void PlaybackCallBack(void *userdata, Uint8 *stream, int len);
+void createDefaultRecData(int, SDL_AudioSpec);
+double Get16bitAudioSample(Uint8*, SDL_AudioFormat);
+void visualizerOutput(Uint8*, SDL_AudioFormat);
+void wavCallBack(void*, Uint8*, int);
+void RealTimeCallBack(void*, Uint8*, int);
+void RecordingCallBack(void*, Uint8*, int);
+void PlaybackCallBack(void*, Uint8*, int);
 void changeMode();
-void setDefaultSpec(SDL_AudioSpec &spec);
-void musicMode(const char *file_stream);
+void setDefaultSpec(SDL_AudioSpec&);
+void musicMode(const char *);
 void realTimeMode();
 void startRecording();
 void playRecordedData();
