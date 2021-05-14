@@ -11,6 +11,7 @@
     * ```make``` or ```g++ src/*.cpp -lSDL2 -lfftw3 -o musico``` 
     * ```./musico -f Path_to_wav_file``` to play a certain song
     * ```./musico``` for recording and then playback
+    * ```./musico -R``` for real time audio visualization
   * Windows 10:
     * run the batch file called ```minGW_compile.bat```
     * similarly run ```musico.exe``` available in the ```winexe``` folder
