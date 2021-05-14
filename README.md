@@ -14,5 +14,5 @@
   * Windows 10:
     * run the batch file called ```minGW_compile.bat```
     * similarly run ```musico.exe``` available in the ```winexe``` folder
-    * Special note: Notice that the windows executable is inside a subfolder so you may have to proper directories
+    * Special note: Notice that the windows executable is inside a subfolder so you may have to use proper directories
 * P.S. Please make sure that you're inputing the correct filename with the correct extension (which is ```.wav``` if you are wondering :))
