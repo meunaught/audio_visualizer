@@ -24,7 +24,7 @@ const double pi = acos(-1);
 #define max(a, b) a > b ? a : b
 
 struct complexData {
-	fftw_plan plan;
+      fftw_plan plan;
       fftw_complex *in;
       fftw_complex *out;
 
