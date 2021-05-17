@@ -12,10 +12,9 @@
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const int RATE = 44100;
-const int BARS = 60;
 const int THICKNESS = 15;
 const int DIST = 16;
-const int SCALE = 30;
+const int SCALE = 60;
 const int VSCALE = 100;
 const int SAMPLES = 2048;
 const int MAX_RECORDING_SECONDS = 600;

@@ -19,12 +19,13 @@ bool init() {
       #endif
       if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1) return false;
       
-      window = SDL_CreateWindow("Musico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
+      window = SDL_CreateWindow("Musico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
       if (window == NULL) return false;
       
       renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
       if (renderer == NULL) return false;
       clearRenderer();
+      
       return true;
 }
 
@@ -41,10 +42,14 @@ double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
 
 void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       double *MAX, *actFreq;
+      int height, width;
+      SDL_GetWindowSize(window, &width, &height);
+
+      int BARS = width / THICKNESS;
       MAX = (double *) malloc(sizeof(double) * BARS);
       actFreq = (double *) malloc(sizeof(double) * (BARS + 1));
 
-      double CONSTANT = (double) SAMPLES / WINDOW_WIDTH, freq;
+      double CONSTANT = (double) SAMPLES / width, freq;
       static int start = 150;
 
       for (int i = 0; i < BARS; i++) {
@@ -71,7 +76,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
             wave = (SDL_Point*) malloc(sizeof(SDL_Point) * SAMPLES);
             for (int i = 0; i < SAMPLES; i++) {
                   wave[i].x = i / CONSTANT;
-                  wave[i].y = WINDOW_HEIGHT / 2 - data.in[i][0] * VSCALE;
+                  wave[i].y = height / 2 - data.in[i][0] * VSCALE;
             }
             SDL_RenderDrawLines(renderer, wave, SAMPLES);
       }
@@ -102,7 +107,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
                   if (MAX[i] > 2.0) MAX[i] = log(MAX[i]);
 
                   for (int j = 0; j < THICKNESS; j++) {
-                        SDL_RenderDrawLine(renderer, (i * DIST + j), WINDOW_HEIGHT, (i * DIST + j), WINDOW_HEIGHT - (SCALE * MAX[i]));
+                        SDL_RenderDrawLine(renderer, (i * DIST + j), height, (i * DIST + j), height - (SCALE * MAX[i]));
                   }
             }
       }

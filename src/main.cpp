@@ -4,7 +4,7 @@ int main(int argc, char *argv[]) {
       int option_index = 0, useMode = 3;
       char *file_stream = NULL;
 
-      while ((option_index = getopt(argc, argv, ":f:r")) != -1) {
+      while ((option_index = getopt(argc, argv, ":f:r:R")) != -1) {
             switch (option_index) {
             case 'f':
                   file_stream = optarg;
@@ -12,6 +12,9 @@ int main(int argc, char *argv[]) {
                   break;
             case 'r':
                   useMode = 2;
+                  break;
+            case 'R':
+                  useMode = 3;
                   break;
             default:
                   break;
