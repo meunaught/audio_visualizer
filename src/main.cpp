@@ -1,6 +1,7 @@
 #include "utils.h"
 
 int main(int argc, char *argv[]) {
+<<<<<<< HEAD
       int option_index = 0, useMode = -1;
       char *file_stream = NULL;
 
@@ -10,10 +11,19 @@ int main(int argc, char *argv[]) {
       }
 
       while ((option_index = getopt(argc, argv, ":f:R")) != -1) {
+=======
+      int option_index = 0, useMode = 3;
+      char *file_stream = NULL;
+
+      while ((option_index = getopt(argc, argv, ":f:r:R")) != -1) {
+>>>>>>> 9d0ec0076c086d18d0e364bb2cddb31ba3c2f223
             switch (option_index) {
             case 'f':
                   file_stream = optarg;
                   useMode = 1;
+                  break;
+            case 'r':
+                  useMode = 2;
                   break;
             case 'R':
                   useMode = 3;
