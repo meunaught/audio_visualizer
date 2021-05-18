@@ -1,8 +1,13 @@
 #include "utils.h"
 
 int main(int argc, char *argv[]) {
-      int option_index = 0, useMode = 2;
+      int option_index = 0, useMode = -1;
       char *file_stream = NULL;
+
+      if (!init()) {
+            printf("%s\n", SDL_GetError());
+            exit(1);
+      }
 
       while ((option_index = getopt(argc, argv, ":f:R")) != -1) {
             switch (option_index) {
@@ -17,16 +22,13 @@ int main(int argc, char *argv[]) {
                   break;
             }
       }
-
-      if (!init()) {
-            printf("%s\n", SDL_GetError());
-            exit(1);
-      }
+      
+      if (useMode == -1) useMode = UI();
 
       if (useMode == 1) musicMode(file_stream);
       else if (useMode == 2) recordMode();
       else if (useMode == 3) realTimeMode();
-
+      else printf("%s\n", SDL_GetError());
       quit();
       return 0;
 }

@@ -8,6 +8,8 @@
 #include <getopt.h>
 #include <assert.h>
 #include <string.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -71,6 +73,8 @@ struct rgb {
       }
 };
 
+
+int UI();
 void clearRenderer();
 bool init();
 void createDefaultRecData(int, SDL_AudioSpec);

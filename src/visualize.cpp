@@ -24,8 +24,99 @@ bool init() {
       
       renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
       if (renderer == NULL) return false;
+
+      if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) return false;
+
+      if (TTF_Init() == -1) return false;
       
       return true;
+}
+
+int UI() {
+      SDL_Surface *nwsurf = IMG_Load("assets/stscr.png");
+      if (nwsurf == NULL) {
+            return 0;
+      }
+      SDL_Texture *nwtext = NULL;
+      nwtext = SDL_CreateTextureFromSurface(renderer, nwsurf);
+
+      TTF_Font *font = TTF_OpenFont("assets/pointy.ttf", 1500);
+      TTF_Font *nwfont = TTF_OpenFont("assets/rough.ttf", 1500);
+
+      if (font == NULL) {
+            return 0;
+      }
+      SDL_Color col = {232, 232, 232};
+      const char *title = "Audio Visualizer";
+      const char *op1 = "Play Music";
+      const char *op2 = "Record Audio";
+      const char *op3 = "Real Time Playback";
+      nwsurf = TTF_RenderText_Solid(font, title, col);
+      SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, nwsurf);
+      nwsurf = TTF_RenderText_Solid(nwfont, op1, col);
+      SDL_Texture *text1 = SDL_CreateTextureFromSurface(renderer, nwsurf);
+      nwsurf = TTF_RenderText_Solid(nwfont, op2, col);
+      SDL_Texture *text2 = SDL_CreateTextureFromSurface(renderer, nwsurf);
+      nwsurf = TTF_RenderText_Solid(nwfont, op3, col);
+      SDL_Texture *text3 = SDL_CreateTextureFromSurface(renderer, nwsurf);
+
+      SDL_Rect rect, txrect, rect2, opt1, opt2, opt3;
+      int h, w;
+
+      int st = 0, colst = 20;
+      bool quit = false;
+      int val = 0;
+      while (!quit) {
+            SDL_Event event; 
+            while (SDL_PollEvent(&event)) {
+                  if (event.type == SDL_QUIT) quit = true; 
+
+                  if (event.type == SDL_MOUSEBUTTONDOWN) {
+                        int x, y; 
+                        SDL_GetMouseState(&x, &y);
+                        if (opt1.x <= x && x <= opt1.x + opt1.w && opt1.y <= y && y <= opt1.y + opt1.h) val = 1, quit = true;
+                        else if (opt2.x <= x && x <= opt2.x + opt2.w && opt2.y <= y && y <= opt2.y + opt2.h) val = 2, quit = true;
+                        else if (opt3.x <= x && x <= opt3.x + opt3.w && opt3.y <= y && y <= opt3.y + opt3.h) val = 3, quit = true;
+                  }
+            }
+            
+            SDL_GetWindowSize(window, &w, &h);
+            rect.x = -1912 + st, rect.y = 0;
+            rect.w = 1912, rect.h = h;
+            rect2.x = st, rect2.y = 0;
+            rect2.w = 1912, rect2.h = h;
+            st++;
+            if (rect.x == 0) st = 0;
+            txrect.x = w / 7, txrect.y = h / 10;
+            txrect.w = 18 * w / 25, txrect.h = h / 10;
+
+            opt1.x = w / 3, opt1.y = h / 4 + h / 30;
+            opt1.w = 10 * w / 30, opt1.h = h / 15;
+
+            opt2.x = w / 3, opt2.y = 3 * h / 8 + h/30;
+            opt2.w = w / 3, opt2.h = h / 15;
+
+            opt3.x = w / 4, opt3.y = h / 2 + h / 30;
+            opt3.w = w / 2, opt3.h = h / 15;
+
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+            SDL_RenderClear(renderer);
+
+            SDL_RenderCopy(renderer, nwtext, NULL, &rect);
+            SDL_RenderCopy(renderer, nwtext, NULL, &rect2);
+            SDL_RenderCopy(renderer, text, NULL, &txrect);
+
+            SDL_RenderCopy(renderer, text1, NULL, &opt1);
+            SDL_RenderCopy(renderer, text2, NULL, &opt2);
+            SDL_RenderCopy(renderer, text3, NULL, &opt3);
+            SDL_RenderPresent(renderer);
+
+            colst = (colst + 1) % 360;
+      }
+      SDL_DestroyTexture(text);
+      SDL_DestroyTexture(nwtext);
+      SDL_FreeSurface(nwsurf);
+      return val;
 }
 
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {

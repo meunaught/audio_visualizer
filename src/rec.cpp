@@ -32,6 +32,7 @@ void RealTimeCallBack(void *userdata, Uint8 *stream, int len) {
 }
 
 void startRecording() {
+      clearRenderer();
 	SDL_AudioSpec desiredRecordingSpec;
       setDefaultSpec(desiredRecordingSpec);
       desiredRecordingSpec.callback = RecordingCallBack;
