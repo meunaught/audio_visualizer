@@ -17,21 +17,18 @@ bool init() {
       #ifdef OS2
       putenv("SDL_AUDIODRIVER=DirectSound");
       #endif
-      if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1) return false;
+
+      if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) return false;
       
       window = SDL_CreateWindow("Musico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
       if (window == NULL) return false;
       
       renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
       if (renderer == NULL) return false;
-<<<<<<< HEAD
 
       if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) return false;
 
       if (TTF_Init() == -1) return false;
-=======
-      clearRenderer();
->>>>>>> 9d0ec0076c086d18d0e364bb2cddb31ba3c2f223
       
       return true;
 }
