@@ -3,7 +3,7 @@
 int main(int argc, char **argv) {
       #ifdef OS2
       putenv("SDL_AUDIODRIVER=DirectSound");
-      chdir("..");
+      // chdir("..");
       #endif
 
       int option_index = 0, useMode = -1;

@@ -12,7 +12,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const int RATE = 44100;

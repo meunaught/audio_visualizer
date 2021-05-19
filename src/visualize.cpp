@@ -7,8 +7,7 @@ TTF_Font *font;
 TTF_Font *nwfont;
 SDL_Rect disp;
 SDL_Surface *surf;
-SDL_Texture *tx0,*tx10,*tx11,*tx12,*tx13,*tx2,*txp;
-
+SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
 complexData data(SAMPLES);
 
@@ -20,94 +19,92 @@ void clearRenderer() {
       SDL_RenderPresent(renderer);
 }
 
-void load_rec_UI(){
-      const char *r0="Press s to start";
-      const char *r10="Recording";
-      const char *r11="Recording.";
-      const char *r12="Recording..";
-      const char *r13="Recording...";
-      const char *r2="Recorded";
-      const char *rp="Recording Paused";
+void load_rec_UI() {
+      const char *r0 = "Press s to start";
+      const char *r10 = "Recording";
+      const char *r11 = "Recording.";
+      const char *r12 = "Recording..";
+      const char *r13 = "Recording...";
+      const char *r2 = "Recorded";
+      const char *rp = "Recording Paused";
       SDL_Color col = {232, 232, 232};
       font = TTF_OpenFont("res/fira.ttf", 300);
-      surf=TTF_RenderText_Solid(font,r0,col);
-      tx0=SDL_CreateTextureFromSurface(renderer,surf);
-      surf=TTF_RenderText_Solid(font,r10,col);
-      tx10=SDL_CreateTextureFromSurface(renderer,surf);
-      surf=TTF_RenderText_Solid(font,r11,col);
-      tx11=SDL_CreateTextureFromSurface(renderer,surf);
-      surf=TTF_RenderText_Solid(font,r12,col);
-      tx12=SDL_CreateTextureFromSurface(renderer,surf);
-      surf=TTF_RenderText_Solid(font,r13,col);
-      tx13=SDL_CreateTextureFromSurface(renderer,surf);
-      surf=TTF_RenderText_Solid(font,r2,col);
-      tx2=SDL_CreateTextureFromSurface(renderer,surf);
-      surf=TTF_RenderText_Solid(font,rp,col);
-      txp=SDL_CreateTextureFromSurface(renderer,surf);
+      surf = TTF_RenderText_Solid(font, r0, col);
+      tx0 = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = TTF_RenderText_Solid(font, r10, col);
+      tx10 = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = TTF_RenderText_Solid(font, r11, col);
+      tx11 = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = TTF_RenderText_Solid(font, r12, col);
+      tx12 = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = TTF_RenderText_Solid(font, r13, col);
+      tx13 = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = TTF_RenderText_Solid(font, r2, col);
+      tx2 = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = TTF_RenderText_Solid(font, rp, col);
+      txp = SDL_CreateTextureFromSurface(renderer, surf);
 }
 
-void rec_UI(int curr, int st){
-      if(curr>2) return;
-      int h,w;
+void rec_UI(int curr, int st) {
+      if (curr > 2) return;
+      int h, w;
       SDL_GetWindowSize(window, &w, &h);
       SDL_RenderClear(renderer);
-      if(curr==0){
-            disp.x=w/10,disp.y=h/3+h/14;
-            disp.w=4*w/5,disp.h=h/7;
-            SDL_RenderCopy(renderer,tx0,NULL,&disp);
+      if (curr == 0) {
+            disp.x = w / 10, disp.y = h / 3 + h / 14;
+            disp.w = 4 * w / 5, disp.h = h / 7;
+            SDL_RenderCopy(renderer, tx0, NULL, &disp);
       }
-      if(curr==1){
-            disp.x=w/5,disp.y=h/3+h/14;
-            disp.w=w/2,disp.h=h/7;
-            switch(st){
+      if (curr == 1) {
+            disp.x = w / 5, disp.y = h / 3 + h / 14;
+            disp.w = w / 2, disp.h = h / 7;
+            switch (st) {
                   case 0:
-                        SDL_RenderCopy(renderer,tx10,NULL,&disp);
+                        SDL_RenderCopy(renderer, tx10, NULL, &disp);
                         break;
                   case 1:
-                        disp.w+=(w/18);
-                        SDL_RenderCopy(renderer,tx11,NULL,&disp);
+                        disp.w += (w / 18);
+                        SDL_RenderCopy(renderer, tx11, NULL, &disp);
                         break;
                   case 2:
-                        disp.w+=(2*w/18);
-                        SDL_RenderCopy(renderer,tx12,NULL,&disp);
+                        disp.w += (2 * w / 18);
+                        SDL_RenderCopy(renderer, tx12, NULL, &disp);
                         break;
                   case 3:
-                        disp.w+=(3*w/18);
-                        SDL_RenderCopy(renderer,tx13,NULL,&disp);
+                        disp.w += (3 * w / 18);
+                        SDL_RenderCopy(renderer, tx13, NULL, &disp);
                         break;
                   default:
                         break;
             }
+      }
+      if (curr == 2) {
+            disp.x = 5 * w / 16, disp.y = h / 3 + h / 14;
+            disp.w = 3 * w / 8, disp.h = h / 7;
+            SDL_RenderCopy(renderer, tx2, NULL, &disp);
+      }
+      if (curr == -1) {
+            disp.x = w / 10, disp.y = h / 3 + h / 14;
+            disp.w = 4 * w / 5, disp.h = h / 7;
+            SDL_RenderCopy(renderer, txp, NULL, &disp);
+      }
 
-      }
-      if(curr==2){
-            disp.x=5*w/16,disp.y=h/3+h/14;
-            disp.w=3*w/8,disp.h=h/7;
-            SDL_RenderCopy(renderer,tx2,NULL,&disp);
-      }
-      if(curr==-1){
-            disp.x=w/10,disp.y=h/3+h/14;
-            disp.w=4*w/5,disp.h=h/7;
-            SDL_RenderCopy(renderer,txp,NULL,&disp);
-      }
-     
       SDL_RenderPresent(renderer);
-
 }
 
 bool init() {
       if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) return false;
-      
+
       window = SDL_CreateWindow("Musico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
       if (window == NULL) return false;
-      
+
       renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
       if (renderer == NULL) return false;
 
       if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) return false;
 
       if (TTF_Init() == -1) return false;
-      
+
       return true;
 }
 
@@ -146,19 +143,19 @@ int UI() {
       bool quit = false;
       int val = 0;
       while (!quit) {
-            SDL_Event event; 
+            SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) quit = true; 
+                  if (event.type == SDL_QUIT) quit = true;
 
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
-                        int x, y; 
+                        int x, y;
                         SDL_GetMouseState(&x, &y);
                         if (opt1.x <= x && x <= opt1.x + opt1.w && opt1.y <= y && y <= opt1.y + opt1.h) val = 1, quit = true;
                         else if (opt2.x <= x && x <= opt2.x + opt2.w && opt2.y <= y && y <= opt2.y + opt2.h) val = 2, quit = true;
                         else if (opt3.x <= x && x <= opt3.x + opt3.w && opt3.y <= y && y <= opt3.y + opt3.h) val = 3, quit = true;
                   }
             }
-            
+
             SDL_GetWindowSize(window, &w, &h);
             rect.x = -1912 + st, rect.y = 0;
             rect.w = 1912, rect.h = h;
@@ -172,7 +169,7 @@ int UI() {
             opt1.x = w / 3, opt1.y = h / 4 + h / 30;
             opt1.w = 10 * w / 30, opt1.h = h / 15;
 
-            opt2.x = w / 3, opt2.y = 3 * h / 8 + h/30;
+            opt2.x = w / 3, opt2.y = 3 * h / 8 + h / 30;
             opt2.w = w / 3, opt2.h = h / 15;
 
             opt3.x = w / 4, opt3.y = h / 2 + h / 30;
@@ -201,12 +198,12 @@ int UI() {
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
       Uint16 val = 0x0;
 
-      if (format & 1 << 12) val = ((Uint16) bytebuffer[0] << 8) | (Uint16) bytebuffer[1];
-      else val = (Uint16) bytebuffer[0] | ((Uint16) bytebuffer[1] << 8);
+      if (format & 1 << 12) val = ((Uint16)bytebuffer[0] << 8) | (Uint16)bytebuffer[1];
+      else val = (Uint16)bytebuffer[0] | ((Uint16)bytebuffer[1] << 8);
 
-      if (format & 1 << 15) return ((int16_t)val) / (double) (1 << 15);
+      if (format & 1 << 15) return ((int16_t)val) / (double)(1 << 15);
 
-      return val / (double) ((1 << 16) - 1);
+      return val / (double)((1 << 16) - 1);
 }
 
 void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
@@ -215,10 +212,10 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       SDL_GetWindowSize(window, &width, &height);
 
       int BARS = width / THICKNESS;
-      MAX = (double *) malloc(sizeof(double) * BARS);
-      actFreq = (double *) malloc(sizeof(double) * (BARS + 1));
+      MAX = (double *)malloc(sizeof(double) * BARS);
+      actFreq = (double *)malloc(sizeof(double) * (BARS + 1));
 
-      double CONSTANT = (double) SAMPLES / width, freq;
+      double CONSTANT = (double)SAMPLES / width, freq;
       static int start = 150;
 
       for (int i = 0; i < BARS; i++) {
@@ -226,7 +223,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
             actFreq[i] = i * (RATE / SAMPLES) + i;
       }
       actFreq[BARS] = RATE / 2;
-      
+
       for (int i = 0; i < SAMPLES; i++) {
             double multiplier = sin(pi * i / SAMPLES);
             multiplier *= multiplier;
@@ -235,21 +232,20 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
             data.in[i][1] = 0.0;
             stream += 2;
       }
-	
+
       if (MODE) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
             SDL_RenderClear(renderer);
             rgb col(start);
             SDL_SetRenderDrawColor(renderer, col.r, col.g, col.b, 255);
             SDL_Point *wave;
-            wave = (SDL_Point*) malloc(sizeof(SDL_Point) * SAMPLES);
+            wave = (SDL_Point *)malloc(sizeof(SDL_Point) * SAMPLES);
             for (int i = 0; i < SAMPLES; i++) {
                   wave[i].x = i / CONSTANT;
                   wave[i].y = height / 2 - data.in[i][0] * VSCALE;
             }
             SDL_RenderDrawLines(renderer, wave, SAMPLES);
-      }
-      else {
+      } else {
             fftw_execute(data.plan);
 
             for (int j = 0; j < SAMPLES / 2; j++) {
@@ -294,11 +290,11 @@ void quit() {
       fftw_cleanup();
       fftw_free(data.in);
       fftw_free(data.out);
-      
+
       SDL_DestroyRenderer(renderer);
       SDL_DestroyWindow(window);
       window = NULL;
       renderer = NULL;
-      
+
       SDL_Quit();
 }
