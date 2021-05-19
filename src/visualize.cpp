@@ -3,6 +3,13 @@
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 
+TTF_Font *font;
+TTF_Font *nwfont;
+SDL_Rect disp;
+SDL_Surface *surf;
+SDL_Texture *tx0,*tx10,*tx11,*tx12,*tx13,*tx2,*txp;
+
+
 complexData data(SAMPLES);
 
 bool MODE = true;
@@ -11,6 +18,81 @@ void clearRenderer() {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
       SDL_RenderClear(renderer);
       SDL_RenderPresent(renderer);
+}
+
+void load_rec_UI(){
+      const char *r0="Press s to start";
+      const char *r10="Recording";
+      const char *r11="Recording.";
+      const char *r12="Recording..";
+      const char *r13="Recording...";
+      const char *r2="Recorded";
+      const char *rp="Recording Paused";
+      SDL_Color col = {232, 232, 232};
+      font = TTF_OpenFont("res/fira.ttf", 300);
+      surf=TTF_RenderText_Solid(font,r0,col);
+      tx0=SDL_CreateTextureFromSurface(renderer,surf);
+      surf=TTF_RenderText_Solid(font,r10,col);
+      tx10=SDL_CreateTextureFromSurface(renderer,surf);
+      surf=TTF_RenderText_Solid(font,r11,col);
+      tx11=SDL_CreateTextureFromSurface(renderer,surf);
+      surf=TTF_RenderText_Solid(font,r12,col);
+      tx12=SDL_CreateTextureFromSurface(renderer,surf);
+      surf=TTF_RenderText_Solid(font,r13,col);
+      tx13=SDL_CreateTextureFromSurface(renderer,surf);
+      surf=TTF_RenderText_Solid(font,r2,col);
+      tx2=SDL_CreateTextureFromSurface(renderer,surf);
+      surf=TTF_RenderText_Solid(font,rp,col);
+      txp=SDL_CreateTextureFromSurface(renderer,surf);
+}
+
+void rec_UI(int curr, int st){
+      if(curr>2) return;
+      int h,w;
+      SDL_GetWindowSize(window, &w, &h);
+      SDL_RenderClear(renderer);
+      if(curr==0){
+            disp.x=w/10,disp.y=h/3+h/14;
+            disp.w=4*w/5,disp.h=h/7;
+            SDL_RenderCopy(renderer,tx0,NULL,&disp);
+      }
+      if(curr==1){
+            disp.x=w/5,disp.y=h/3+h/14;
+            disp.w=w/2,disp.h=h/7;
+            switch(st){
+                  case 0:
+                        SDL_RenderCopy(renderer,tx10,NULL,&disp);
+                        break;
+                  case 1:
+                        disp.w+=(w/18);
+                        SDL_RenderCopy(renderer,tx11,NULL,&disp);
+                        break;
+                  case 2:
+                        disp.w+=(2*w/18);
+                        SDL_RenderCopy(renderer,tx12,NULL,&disp);
+                        break;
+                  case 3:
+                        disp.w+=(3*w/18);
+                        SDL_RenderCopy(renderer,tx13,NULL,&disp);
+                        break;
+                  default:
+                        break;
+            }
+
+      }
+      if(curr==2){
+            disp.x=5*w/16,disp.y=h/3+h/14;
+            disp.w=3*w/8,disp.h=h/7;
+            SDL_RenderCopy(renderer,tx2,NULL,&disp);
+      }
+      if(curr==-1){
+            disp.x=w/10,disp.y=h/3+h/14;
+            disp.w=4*w/5,disp.h=h/7;
+            SDL_RenderCopy(renderer,txp,NULL,&disp);
+      }
+     
+      SDL_RenderPresent(renderer);
+
 }
 
 bool init() {
@@ -37,8 +119,8 @@ int UI() {
       SDL_Texture *nwtext = NULL;
       nwtext = SDL_CreateTextureFromSurface(renderer, nwsurf);
 
-      TTF_Font *font = TTF_OpenFont("res/pointy.ttf", 1500);
-      TTF_Font *nwfont = TTF_OpenFont("res/rough.ttf", 1500);
+      font = TTF_OpenFont("res/pointy.ttf", 1500);
+      nwfont = TTF_OpenFont("res/rough.ttf", 1500);
 
       if (font == NULL) {
             return 0;

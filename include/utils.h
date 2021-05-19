@@ -75,6 +75,8 @@ struct rgb {
 };
 
 
+void load_rec_UI();
+void rec_UI(int,int);
 int UI();
 void clearRenderer();
 bool init();

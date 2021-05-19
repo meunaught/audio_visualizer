@@ -91,8 +91,14 @@ void realTimeMode() {
 }
 
 void recordMode() {
-      int quit = 0,currentState = 0,pause = 0;
+      int quit = 0,currentState = 0,pause = 0,st=0,timer=0;
+      load_rec_UI();
       while (!quit) {
+            if(currentState==1){
+                  if(pause) rec_UI(-1,st);
+                  else rec_UI(currentState,st);
+            }
+            else rec_UI(currentState,st);
             SDL_Event event;
 		while (SDL_PollEvent(&event)) {
                   if (event.type == SDL_QUIT) quit = true;
@@ -105,6 +111,7 @@ void recordMode() {
                   else if (currentState == 1 && (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)) goto outter;
                   else if (currentState == 1 && (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p)) {
                         pause ^= 1;
+                        st=0;
                         SDL_PauseAudioDevice(recordingDeviceId,pause);
                   }
                   else if (currentState == 2) {
@@ -137,7 +144,6 @@ void recordMode() {
                   if (recData.BufferBytePosition > recData.BufferByteMaxPosition) {
                         outter:
                         recData.BufferByteMaxPosition = recData.BufferBytePosition;
-                        puts("RECORDED");
                         SDL_PauseAudioDevice(recordingDeviceId, SDL_TRUE);
                         currentState++;
                   }
@@ -151,6 +157,8 @@ void recordMode() {
                   }
                   SDL_UnlockAudioDevice(playbackDeviceId);
             }
+            timer=(timer+1)%25;
+            if(timer==24) st=(st+1)%4;
       }
 	
       SDL_CloseAudioDevice(recordingDeviceId);
