@@ -7,13 +7,15 @@
   * Windows 10: (is only required for compilation)
     * [```minGW```](https://winlibs.com/) (```GCC 8.4.0 64-bit``` or above is recommended)
 * Compile Commands : 
-  * Unix Operating Systems:
+  * *nix:
     * ```make``` or ```g++ src/*.cpp -lSDL2 -lfftw3 -o musico``` 
     * ```./musico -f Path_to_wav_file``` to play a certain song
     * ```./musico``` for recording and then playback
     * ```./musico -R``` for real time audio visualization
-  * Windows 10:
+  * win64:
     * run the batch file called ```minGW_compile.bat```
     * similarly run ```musico.exe``` available in the ```winexe``` folder
     * Special note: Notice that the windows executable is inside a subfolder so you may have to use proper directories
 * ```P.S.:``` Please make sure that you're inputing the correct filename with the correct extension (which is ```.wav``` if you are wondering :))
+* Known Bugs:
+    * Window resizing doesn't work properly due to Microsoft's```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
