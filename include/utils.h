@@ -1,15 +1,17 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <fftw3.h>
-#include <SDL2/SDL.h>
 #include <stdio.h>
-#include <math.h>
 #include <getopt.h>
 #include <assert.h>
 #include <string.h>
+#include <unistd.h>
+#include <math.h>
+#include <fftw3.h>
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;

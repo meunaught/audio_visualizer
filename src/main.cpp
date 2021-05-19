@@ -1,6 +1,11 @@
 #include "utils.h"
 
 int main(int argc, char **argv) {
+      #ifdef OS2
+      putenv("SDL_AUDIODRIVER=DirectSound");
+      chdir("..");
+      #endif
+
       int option_index = 0, useMode = -1;
       char *file_stream = NULL;
 
@@ -32,6 +37,7 @@ int main(int argc, char **argv) {
       else if (useMode == 2) recordMode();
       else if (useMode == 3) realTimeMode();
       else printf("%s\n", SDL_GetError());
+
       quit();
       return 0;
 }

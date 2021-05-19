@@ -14,10 +14,6 @@ void clearRenderer() {
 }
 
 bool init() {
-      #ifdef OS2
-      putenv("SDL_AUDIODRIVER=DirectSound");
-      #endif
-
       if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) return false;
       
       window = SDL_CreateWindow("Musico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
@@ -34,15 +30,15 @@ bool init() {
 }
 
 int UI() {
-      SDL_Surface *nwsurf = IMG_Load("assets/stscr.png");
+      SDL_Surface *nwsurf = IMG_Load("res/stscr.png");
       if (nwsurf == NULL) {
             return 0;
       }
       SDL_Texture *nwtext = NULL;
       nwtext = SDL_CreateTextureFromSurface(renderer, nwsurf);
 
-      TTF_Font *font = TTF_OpenFont("assets/pointy.ttf", 1500);
-      TTF_Font *nwfont = TTF_OpenFont("assets/rough.ttf", 1500);
+      TTF_Font *font = TTF_OpenFont("res/pointy.ttf", 1500);
+      TTF_Font *nwfont = TTF_OpenFont("res/rough.ttf", 1500);
 
       if (font == NULL) {
             return 0;
