@@ -1,9 +1,9 @@
 # audio_visualizer
 * Library Pre-requisites : 
   * ```*nix```:
-    * Debian Based Distributions : ```libsdl2-dev``` ```libsdl2-image-dev``` ```libsdl2-ttf-dev``` ```libfftw3-dev```
-    * Special Note: Make sure you have ```GLIB_C2.29``` or above (comes preinstalled from ```Ubuntu_19.04``` onwards)
+    * Debian Based Distributions : ```build-essential```` ```libsdl2-dev``` ```libsdl2-image-dev``` ```libsdl2-ttf-dev``` ```libfftw3-dev```
     * Others : Please check the requirements on their websites
+    * ```P.S.:```: Make sure you have ```GLIB_C2.29``` or above (comes preinstalled from ```Ubuntu_19.04``` onwards)
   * ```win64```:
     * [```minGW```](https://winlibs.com/) (```GCC 8.4.0 64-bit``` or above is recommended)
 * Compile Commands : 
@@ -15,4 +15,4 @@
     * ```./musico -R``` for real time audio visualization
 * ```P.S.:``` Please make sure that you're inputing the correct filename with the correct extension (which is ```.wav``` if you are wondering :))
 * Known Bugs:
-    * Window resizing doesn't work properly due to Microsoft's```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
+    * Window resizing doesn't work properly due to Microsoft's ```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
