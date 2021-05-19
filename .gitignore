@@ -7,35 +7,35 @@
 *.vscode
 
 # Compiled Object files
-*.slo
-*.lo
+# *.slo
+# *.lo
 *.o
-*.obj
+# *.obj
 
 # Precompiled Headers
-*.gch
-*.pch
+# *.gch
+# *.pch
 
 # Linker files
-*.ilk
+# *.ilk
 
 # Debugger Files
-*.pdb
+# *.pdb
 
 # Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# *.so
+# *.dylib
+# *.dll
 
 # Fortran module files
-*.mod
-*.smod
+# *.mod
+# *.smod
 
 # Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# *.lai
+# *.la
+# *.a
+# *.lib
 
 # Executables
 *.exe

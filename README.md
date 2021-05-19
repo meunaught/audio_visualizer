@@ -15,3 +15,4 @@
 * ```P.S.```: Please make sure that you're inputing the correct filename with the correct extension (which is ```.wav``` if you are wondering :))
 * Known Bugs:
     * Window resizing doesn't work properly due to Microsoft's ```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
+
