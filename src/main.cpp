@@ -14,6 +14,8 @@ int main(int argc, char **argv) {
             exit(1);
       }
 
+      // 69
+
       while ((option_index = getopt(argc, argv, ":f:rR")) != -1) {
             switch (option_index) {
             case 'f':
