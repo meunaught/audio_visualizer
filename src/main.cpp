@@ -24,7 +24,6 @@ int main(int argc, char **argv) {
       putenv("SDL_AUDIODRIVER=DirectSound");
       chdir("..");
       #endif
-
       int option_index = 0, useMode = -1;
       char *file_stream = NULL;
 

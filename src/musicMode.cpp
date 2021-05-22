@@ -29,15 +29,16 @@ void wavCallBack(void *userData, Uint8 *stream, int len) {
 }
 
 void musicMode(const char *file_stream) {
-      SDL_Surface *surf;
-      SDL_Texture *text[50];
-      char *name[50];
-      font = TTF_OpenFont("res/pointy.ttf", 1000);
-      SDL_Color col = {232, 232, 232};
-      int cnt = 0;
       if (file_stream == NULL) {
+            SDL_Surface *surf;
+            SDL_Texture *text[50];
+            char *name[50];
+            font = TTF_OpenFont("res/etaValo.ttf", 1000);
+            SDL_Color col = {232, 232, 232};
+            int cnt = 0;
             DIR *dir;
             dirent *ent;
+            char huh[50];
             if ((dir = opendir("wav")) != NULL) {
                   while ((ent = readdir(dir)) != NULL) {
                         int len = strlen(ent -> d_name);
@@ -45,19 +46,20 @@ void musicMode(const char *file_stream) {
                               && ent -> d_name[len - 2] == 'a' 
                                     && ent -> d_name[len - 3] == 'w' 
                                           && ent -> d_name[len - 4] == '.') {
-                              
-                              surf = TTF_RenderText_Solid(font, ent -> d_name, col);
+                              name[cnt] =  ent -> d_name;
+                              strcpy(huh, name[cnt]);
+                              huh[len - 4] = '\0';
+                              char s[50] = "1) ";
+                              s[0] += cnt;
+                              strcat(s, huh);
+                              surf = TTF_RenderText_Solid(font, s, col);
                               text[cnt] = SDL_CreateTextureFromSurface(renderer, surf);
-                              name[cnt] = ent -> d_name;
                               cnt++;
                               printf("%s\n", ent -> d_name);
                         }
                   }
                   closedir(dir);
             } 
-            // printf("You need to specify a file\n");
-            // exit(1);
-
             printf("cnt = %d\n", cnt);
             bool nquit = false;
             int h,w;
@@ -67,7 +69,8 @@ void musicMode(const char *file_stream) {
                   int val = h / 8;
                   for (int i = 0; i < cnt; ++i) {
                         recc[i].x = w / 5, recc[i].y = (i + 1) * (val + val / cnt);
-                        recc[i].w = 3 * w / 5, recc[i].h = val;
+                        int len = strlen(name[i]) - 4;
+                        recc[i].w = (w * len) / 20, recc[i].h = val;
                   }
                   SDL_RenderClear(renderer);
                   for (int i = 0; i < cnt; ++i) {
