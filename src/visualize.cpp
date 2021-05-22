@@ -17,7 +17,7 @@ void load_rec_UI() {
       const char *r2 = "Recorded";
       const char *rp = "Recording Paused";
       SDL_Color col = {232, 232, 232};
-      font = TTF_OpenFont("res/fira.ttf", 300);
+      font = TTF_OpenFont("res/firaL.ttf", 300);
       surf = TTF_RenderText_Solid(font, r0, col);
       tx0 = SDL_CreateTextureFromSurface(renderer, surf);
       surf = TTF_RenderText_Solid(font, r10, col);
