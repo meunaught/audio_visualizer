@@ -186,9 +186,9 @@ int UI() {
 }
 
 void load() {
-      surf = IMG_Load("res/pause.png");
+      surf = IMG_Load("res/pause.jpg");
       tpause = SDL_CreateTextureFromSurface(renderer, surf);
-      surf = IMG_Load("res/play.png");
+      surf = IMG_Load("res/play.jpg");
       tplay = SDL_CreateTextureFromSurface(renderer, surf);
 }
 

@@ -80,11 +80,10 @@ void realTimeMode() {
                         }
                   }
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
-                        int rad = pauserect.w / 2;
-                        int x = pauserect.x + rad, y = pauserect.y + rad;
+                        
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
-                        if ((x - xx) * (x - xx) + (y - yy) * (y - yy) <= rad * rad) {
+                        if (cir_intersects(xx,yy,pauserect)) {
                               pause ^= 1;
                               SDL_PauseAudioDevice(recordingDeviceId, pause);
                         }
@@ -164,4 +163,11 @@ void recordMode() {
 
       SDL_CloseAudioDevice(recordingDeviceId);
       SDL_CloseAudioDevice(playbackDeviceId);
+}
+
+
+bool cir_intersects(int xx,int yy,SDL_Rect recc){
+      int rad = pauserect.w / 2;
+      int x = pauserect.x + rad, y = pauserect.y + rad;
+      return (x - xx) * (x - xx) + (y - yy) * (y - yy) <= rad * rad;
 }

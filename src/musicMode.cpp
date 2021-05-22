@@ -1,7 +1,7 @@
 #include "utils.h"
 
 
-bool intersects(int x, int y, SDL_Rect recc) {
+bool rect_intersects(int x, int y, SDL_Rect recc) {
       return recc.x <= x && x <= recc.x + recc.w && recc.y <= y && y <= recc.y + recc.h;
 }
 
@@ -102,7 +102,7 @@ void musicMode(const char *file_stream) {
                               SDL_GetMouseState(&x, &y);
                               int id = -1;
                               for (int i = 0; i < cnt; ++i) {
-                                    if (intersects(x, y, recc[i])) {
+                                    if (rect_intersects(x, y, recc[i])) {
                                           id = i;
                                           file_stream = name[i];
                                           nquit = true;
