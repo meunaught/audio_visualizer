@@ -33,7 +33,7 @@ void musicMode(const char *file_stream) {
             SDL_Surface *surf;
             SDL_Texture *text[50];
             char name[50][100];
-            font = TTF_OpenFont("res/etaValo.ttf", 1000);
+            font = TTF_OpenFont("res/firaL.ttf", 800);
             SDL_Color col = {232, 232, 232};
             int cnt = 0;
             DIR *dir;
@@ -59,23 +59,37 @@ void musicMode(const char *file_stream) {
                         }
                   }
                   closedir(dir);
-            } 
-            printf("cnt = %d\n", cnt);
+            }
             bool nquit = false;
             int h, w;
             SDL_Rect recc[cnt];
+
+            const char *head = "Select one of the following:";
+            SDL_Surface *newsurf=TTF_RenderText_Solid(font,head,col);
+            SDL_Texture *htext = SDL_CreateTextureFromSurface(renderer,newsurf);
+            if(htext==NULL) puts("Htext failed");
+            SDL_Rect hrect;
+
             while (!nquit) {
                   SDL_GetWindowSize(window, &w, &h);
                   int val = h / 8;
                   for (int i = 0; i < cnt; ++i) {
-                        recc[i].x = w / 5, recc[i].y = (i + 1) * (val + val / cnt);
+                        recc[i].x = w / 100, recc[i].y = (i + 1) * (val + val / cnt);
                         int len = strlen(name[i]) - 4;
                         recc[i].w = (w * len) / 20, recc[i].h = val;
                   }
+
+                  hrect.x = w / 100, hrect.y = h/100;
+                  hrect.w = (w * 29) / 40, hrect.h = val;
+
                   SDL_RenderClear(renderer);
+
+                  SDL_RenderCopy(renderer,htext,NULL,&hrect);
+
                   for (int i = 0; i < cnt; ++i) {
                         SDL_RenderCopy(renderer,text[i],NULL,&recc[i]);
                   }
+
                   SDL_RenderPresent(renderer);
                   SDL_Event eve;
                   while (SDL_PollEvent(&eve)) {
@@ -91,7 +105,6 @@ void musicMode(const char *file_stream) {
                                     if (intersects(x, y, recc[i])) {
                                           id = i;
                                           file_stream = name[i];
-                                          printf("%s\n", file_stream);
                                           nquit = true;
                                     }
                               }
