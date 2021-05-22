@@ -138,7 +138,8 @@ void musicMode(const char *file_stream) {
       }
 
       SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
-      bool quit = false, pause = false, stop = false;
+      bool quit = false, stop = false;
+      pause = false;
       while (!quit) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {

@@ -34,10 +34,14 @@ extern TTF_Font *font, *nwfont;
 extern SDL_Rect disp;
 extern SDL_Surface *surf;
 extern SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
-extern bool MODE;
+extern bool MODE, pause;
 
-#define max(a, b) a > b ? a : b
+extern SDL_Texture *tpause, *tplay;
+extern SDL_Rect pauserect;
 
+
+#define max(a, b) (a > b ? a : b)
+#define min(a, b) (a < b ? a : b)
 struct complexData {
       fftw_plan plan;
       fftw_complex *in;
@@ -86,7 +90,7 @@ struct rgb {
       }
 };
 
-
+void load();
 void load_rec_UI();
 void rec_UI(int,int);
 int UI();

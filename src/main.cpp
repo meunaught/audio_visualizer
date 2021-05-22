@@ -17,7 +17,7 @@ SDL_Rect disp;
 SDL_Surface *surf;
 SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
-bool MODE = true;
+bool MODE = true, pause = false;
 
 int main(int argc, char **argv) {
       #ifdef OS2
@@ -31,6 +31,8 @@ int main(int argc, char **argv) {
             printf("%s\n", SDL_GetError());
             exit(1);
       }
+
+      load();
 
       while ((option_index = getopt(argc, argv, ":f:rR")) != -1) {
             switch (option_index) {

@@ -57,7 +57,8 @@ void realTimeMode() {
             exit(1);
       }
       SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
-      bool quit = false, pause = false;
+      bool quit = false;
+      pause = false;
       while (!quit) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
@@ -78,13 +79,27 @@ void realTimeMode() {
                                     break;
                         }
                   }
+                  if (event.type == SDL_MOUSEBUTTONDOWN) {
+                        int rad = pauserect.w / 2;
+                        int x = pauserect.x + rad, y = pauserect.y + rad;
+                        int xx, yy;
+                        SDL_GetMouseState(&xx, &yy);
+                        if ((x - xx) * (x - xx) + (y - yy) * (y - yy) <= rad * rad) {
+                              pause ^= 1;
+                              SDL_PauseAudioDevice(recordingDeviceId, pause);
+                        }
+                  }
+            }
+            if (pause) {
+                  SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
+                  SDL_RenderPresent(renderer);
             }
       }
       SDL_CloseAudioDevice(recordingDeviceId);
 }
 
 void recordMode() {
-      int quit = 0, currentState = 0, pause = 0, st = 0, timer = 0;
+      int quit = 0, currentState = 0, st = 0, timer = 0;
       load_rec_UI();
       while (!quit) {
             if (currentState == 1) {

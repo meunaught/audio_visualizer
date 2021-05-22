@@ -1,6 +1,7 @@
 #include "utils.h"
 
-
+SDL_Texture *tpause, *tplay, *ttemp;
+SDL_Rect pauserect;
 
 void clearRenderer() {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
@@ -184,6 +185,13 @@ int UI() {
       return val;
 }
 
+void load() {
+      surf = IMG_Load("res/pause.png");
+      tpause = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = IMG_Load("res/play.png");
+      tplay = SDL_CreateTextureFromSurface(renderer, surf);
+}
+
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
       Uint16 val = 0x0;
 
@@ -199,6 +207,8 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       double *MAX, *actFreq;
       int height, width;
       SDL_GetWindowSize(window, &width, &height);
+      pauserect.x = width / 100, pauserect.y = height / 100;
+      pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
 
       int BARS = width / THICKNESS;
       MAX = (double *)malloc(sizeof(double) * BARS);
@@ -266,6 +276,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
             }
       }
       start = (start + 1) % 360;
+      SDL_RenderCopy(renderer, tpause, NULL, &pauserect);
       SDL_RenderPresent(renderer);
       free(MAX), free(actFreq);
 }
