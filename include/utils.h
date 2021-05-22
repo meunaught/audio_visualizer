@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <string.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <math.h>
 #include <fftw3.h>
 #include <SDL2/SDL.h>
@@ -23,6 +24,18 @@ const int SAMPLES = 2048;
 const int MAX_RECORDING_SECONDS = 600;
 const double pi = acos(-1);
 
+extern SDL_Window *window;
+extern SDL_Renderer *renderer;
+extern SDL_AudioDeviceID recordingDeviceId;
+extern SDL_AudioDeviceID playbackDeviceId;
+extern SDL_AudioSpec ReceivedRecordingSpec;
+extern SDL_AudioSpec ReceivedPlaybackSpec;
+extern TTF_Font *font, *nwfont;
+extern SDL_Rect disp;
+extern SDL_Surface *surf;
+extern SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
+extern bool MODE;
+
 #define max(a, b) a > b ? a : b
 
 struct complexData {
@@ -35,14 +48,14 @@ struct complexData {
             out = (fftw_complex* ) malloc(sizeof(fftw_complex) * SIZE); 
             plan = fftw_plan_dft_1d(SIZE, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
       }
-};
+} extern data;
 
 struct RecordedData {
       Uint8 *Buffer;
       Uint32 BufferByteSize;
       Uint32 BufferBytePosition;
       Uint32 BufferByteMaxPosition;
-};
+} extern recData;
 
 struct WavData {
       Uint8 *Buffer;
@@ -79,6 +92,7 @@ void rec_UI(int,int);
 int UI();
 void clearRenderer();
 bool init();
+bool intersects(int, int, SDL_Rect);
 void createDefaultRecData(int, SDL_AudioSpec);
 double Get16bitAudioSample(Uint8*, SDL_AudioFormat);
 void visualizerOutput(Uint8*, SDL_AudioFormat);
