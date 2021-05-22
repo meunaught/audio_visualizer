@@ -55,14 +55,13 @@ void musicMode(const char *file_stream) {
                               surf = TTF_RenderText_Solid(font, s, col);
                               text[cnt] = SDL_CreateTextureFromSurface(renderer, surf);
                               cnt++;
-                              printf("%s\n", ent -> d_name);
                         }
                   }
                   closedir(dir);
             } 
             printf("cnt = %d\n", cnt);
             bool nquit = false;
-            int h,w;
+            int h, w;
             SDL_Rect recc[cnt];
             while (!nquit) {
                   SDL_GetWindowSize(window, &w, &h);
@@ -87,7 +86,7 @@ void musicMode(const char *file_stream) {
                               int x, y; 
                               SDL_GetMouseState(&x, &y);
                               int id = -1;
-                              for (int i = 0; i < cnt; ++i) {
+                              for (int i = 1; i < cnt; ++i) {
                                     if (intersects(x, y, recc[i])) {
                                           id = i;
                                           file_stream = name[i];
