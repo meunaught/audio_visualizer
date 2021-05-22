@@ -86,7 +86,7 @@ void musicMode(const char *file_stream) {
                               int x, y; 
                               SDL_GetMouseState(&x, &y);
                               int id = -1;
-                              for (int i = 1; i < cnt; ++i) {
+                              for (int i = 0; i < cnt; ++i) {
                                     if (intersects(x, y, recc[i])) {
                                           id = i;
                                           file_stream = name[i];
