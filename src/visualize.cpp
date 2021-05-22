@@ -1,17 +1,6 @@
 #include "utils.h"
 
-SDL_Window *window = NULL;
-SDL_Renderer *renderer = NULL;
 
-TTF_Font *font;
-TTF_Font *nwfont;
-SDL_Rect disp;
-SDL_Surface *surf;
-SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
-
-complexData data(SAMPLES);
-
-bool MODE = true;
 
 void clearRenderer() {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);

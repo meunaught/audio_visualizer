@@ -1,5 +1,10 @@
 #include "utils.h"
 
+
+bool intersects(int x, int y, SDL_Rect recc) {
+      return recc.x <= x && x <= recc.x + recc.w && recc.y <= y && y <= recc.y + recc.h;
+}
+
 void setDefaultSpec(SDL_AudioSpec &spec) {
       SDL_zero(spec);
       spec.freq = RATE;
@@ -24,9 +29,72 @@ void wavCallBack(void *userData, Uint8 *stream, int len) {
 }
 
 void musicMode(const char *file_stream) {
+      SDL_Surface *surf;
+      SDL_Texture *text[50];
+      char *name[50];
+      font = TTF_OpenFont("res/pointy.ttf", 1000);
+      SDL_Color col = {232, 232, 232};
+      int cnt = 0;
       if (file_stream == NULL) {
-            printf("You need to specify a file\n");
-            exit(1);
+            DIR *dir;
+            dirent *ent;
+            if ((dir = opendir("wav")) != NULL) {
+                  while ((ent = readdir(dir)) != NULL) {
+                        int len = strlen(ent -> d_name);
+                        if (len > 3 && ent -> d_name[len - 1] == 'v' 
+                              && ent -> d_name[len - 2] == 'a' 
+                                    && ent -> d_name[len - 3] == 'w' 
+                                          && ent -> d_name[len - 4] == '.') {
+                              
+                              surf = TTF_RenderText_Solid(font, ent -> d_name, col);
+                              text[cnt] = SDL_CreateTextureFromSurface(renderer, surf);
+                              name[cnt] = ent -> d_name;
+                              cnt++;
+                              printf("%s\n", ent -> d_name);
+                        }
+                  }
+                  closedir(dir);
+            } 
+            // printf("You need to specify a file\n");
+            // exit(1);
+
+            printf("cnt = %d\n", cnt);
+            bool nquit = false;
+            int h,w;
+            SDL_Rect recc[cnt];
+            while (!nquit) {
+                  SDL_GetWindowSize(window, &w, &h);
+                  int val = h / 8;
+                  for (int i = 0; i < cnt; ++i) {
+                        recc[i].x = w / 5, recc[i].y = (i + 1) * (val + val / cnt);
+                        recc[i].w = 3 * w / 5, recc[i].h = val;
+                  }
+                  SDL_RenderClear(renderer);
+                  for (int i = 0; i < cnt; ++i) {
+                        SDL_RenderCopy(renderer,text[i],NULL,&recc[i]);
+                  }
+                  SDL_RenderPresent(renderer);
+                  SDL_Event eve;
+                  while (SDL_PollEvent(&eve)) {
+                        if (eve.type == SDL_QUIT) {
+                              nquit = true;
+                              return;
+                        }
+                        if (eve.type == SDL_MOUSEBUTTONDOWN) {
+                              int x, y; 
+                              SDL_GetMouseState(&x, &y);
+                              int id = -1;
+                              for (int i = 0; i < cnt; ++i) {
+                                    if (intersects(x, y, recc[i])) {
+                                          id = i;
+                                          file_stream = name[i];
+                                          nquit = true;
+                                    }
+                              }
+                        }
+                  }
+            }
+            chdir("wav");
       }
 
       SDL_AudioSpec wav_spec;

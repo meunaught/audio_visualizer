@@ -1,9 +1,28 @@
 #include "utils.h"
 
+SDL_Window *window = NULL;
+SDL_Renderer *renderer = NULL;
+
+complexData data(SAMPLES);
+RecordedData recData;
+
+SDL_AudioDeviceID recordingDeviceId = 0;
+SDL_AudioDeviceID playbackDeviceId = 0;
+SDL_AudioSpec ReceivedRecordingSpec;
+SDL_AudioSpec ReceivedPlaybackSpec;
+
+TTF_Font *font;
+TTF_Font *nwfont;
+SDL_Rect disp;
+SDL_Surface *surf;
+SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
+
+bool MODE = true;
+
 int main(int argc, char **argv) {
       #ifdef OS2
       putenv("SDL_AUDIODRIVER=DirectSound");
-      // chdir("..");
+      chdir("..");
       #endif
 
       int option_index = 0, useMode = -1;
@@ -13,8 +32,6 @@ int main(int argc, char **argv) {
             printf("%s\n", SDL_GetError());
             exit(1);
       }
-
-      // 69
 
       while ((option_index = getopt(argc, argv, ":f:rR")) != -1) {
             switch (option_index) {

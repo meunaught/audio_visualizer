@@ -1,12 +1,5 @@
 #include "utils.h"
 
-SDL_AudioDeviceID recordingDeviceId = 0;
-SDL_AudioDeviceID playbackDeviceId = 0;
-SDL_AudioSpec ReceivedRecordingSpec;
-SDL_AudioSpec ReceivedPlaybackSpec;
-
-RecordedData recData;
-
 void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecordingSpec) {
       int bytesPerSample = ReceivedRecordingSpec.channels * (SDL_AUDIO_BITSIZE(ReceivedRecordingSpec.format) / 8);
       int bytesPerSecond = ReceivedRecordingSpec.freq * bytesPerSample;
