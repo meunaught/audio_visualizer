@@ -32,21 +32,22 @@ void musicMode(const char *file_stream) {
       if (file_stream == NULL) {
             SDL_Surface *surf;
             SDL_Texture *text[50];
-            char *name[50];
+            char name[50][100];
             font = TTF_OpenFont("res/etaValo.ttf", 1000);
             SDL_Color col = {232, 232, 232};
             int cnt = 0;
             DIR *dir;
             dirent *ent;
             char huh[50];
-            if ((dir = opendir("wav")) != NULL) {
+            chdir("wav");
+            if ((dir = opendir(".")) != NULL) {
                   while ((ent = readdir(dir)) != NULL) {
                         int len = strlen(ent -> d_name);
                         if (len > 3 && ent -> d_name[len - 1] == 'v' 
                               && ent -> d_name[len - 2] == 'a' 
                                     && ent -> d_name[len - 3] == 'w' 
                                           && ent -> d_name[len - 4] == '.') {
-                              name[cnt] =  ent -> d_name;
+                              strcpy(name[cnt], ent -> d_name);
                               strcpy(huh, name[cnt]);
                               huh[len - 4] = '\0';
                               char s[50] = "1) ";
@@ -90,13 +91,13 @@ void musicMode(const char *file_stream) {
                                     if (intersects(x, y, recc[i])) {
                                           id = i;
                                           file_stream = name[i];
+                                          printf("%s\n", file_stream);
                                           nquit = true;
                                     }
                               }
                         }
                   }
             }
-            chdir("wav");
       }
 
       SDL_AudioSpec wav_spec;
