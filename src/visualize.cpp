@@ -1,7 +1,7 @@
 #include "utils.h"
 
-SDL_Texture *tpause, *tplay, *ttemp;
-SDL_Rect pauserect;
+SDL_Texture *tpause, *tplay, *tstop;
+SDL_Rect pauserect,stoprect;
 
 void clearRenderer() {
       SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
@@ -40,6 +40,13 @@ void rec_UI(int curr, int st) {
       int h, w;
       SDL_GetWindowSize(window, &w, &h);
       SDL_RenderClear(renderer);
+
+      pauserect.x = w / 100, pauserect.y = h / 100;
+      pauserect.w = min(w, h) / 10, pauserect.h = min(w, h) / 10;
+
+      stoprect.x = w / 100 + pauserect.w + w/100, stoprect.y = h / 100;
+      stoprect.w = min(w, h) / 10, stoprect.h = min(w, h) / 10;
+
       if (curr == 0) {
             disp.x = w / 10, disp.y = h / 3 + h / 14;
             disp.w = 4 * w / 5, disp.h = h / 7;
@@ -67,6 +74,7 @@ void rec_UI(int curr, int st) {
                   default:
                         break;
             }
+            SDL_RenderCopy(renderer, tpause, NULL, &pauserect);
       }
       if (curr == 2) {
             disp.x = 5 * w / 16, disp.y = h / 3 + h / 14;
@@ -77,8 +85,11 @@ void rec_UI(int curr, int st) {
             disp.x = w / 10, disp.y = h / 3 + h / 14;
             disp.w = 4 * w / 5, disp.h = h / 7;
             SDL_RenderCopy(renderer, txp, NULL, &disp);
+            SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
       }
-
+      
+      if(abs(curr) == 1) SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
+      
       SDL_RenderPresent(renderer);
 }
 
@@ -190,6 +201,8 @@ void load() {
       tpause = SDL_CreateTextureFromSurface(renderer, surf);
       surf = IMG_Load("res/play.jpg");
       tplay = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = IMG_Load("res/stop.png");
+      tstop = SDL_CreateTextureFromSurface(renderer, surf);
 }
 
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
@@ -207,8 +220,12 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       double *MAX, *actFreq;
       int height, width;
       SDL_GetWindowSize(window, &width, &height);
+
       pauserect.x = width / 100, pauserect.y = height / 100;
       pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
+
+      stoprect.x = width / 100 + pauserect.w + width/100, stoprect.y = height / 100;
+      stoprect.w = min(width, height) / 10, stoprect.h = min(width, height) / 10;
 
       int BARS = width / THICKNESS;
       MAX = (double *)malloc(sizeof(double) * BARS);
@@ -277,6 +294,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       }
       start = (start + 1) % 360;
       SDL_RenderCopy(renderer, tpause, NULL, &pauserect);
+      SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
       SDL_RenderPresent(renderer);
       free(MAX), free(actFreq);
 }

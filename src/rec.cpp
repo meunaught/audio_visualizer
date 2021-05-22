@@ -87,6 +87,10 @@ void realTimeMode() {
                               pause ^= 1;
                               SDL_PauseAudioDevice(recordingDeviceId, pause);
                         }
+                        if(cir_intersects(xx,yy,stoprect)){
+                              quit=1;
+                              break;
+                        }
                   }
             }
             if (pause) {
@@ -138,6 +142,23 @@ void recordMode() {
                         else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_q) quit = true;
                   }
                   if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m) changeMode();
+                  if (event.type == SDL_MOUSEBUTTONDOWN) {
+                        
+                        int xx, yy;
+                        SDL_GetMouseState(&xx, &yy);
+                        if (cir_intersects(xx,yy,pauserect)) {
+                              pause ^= 1;
+                              if(currentState==1) SDL_PauseAudioDevice(recordingDeviceId, pause);
+                              else SDL_PauseAudioDevice(playbackDeviceId, pause);
+                        }
+                        if(cir_intersects(xx,yy,stoprect)){
+                              if(currentState==1) goto outter;
+                              else if(currentState==4){
+                                    quit=1;
+                                    break;
+                              }
+                        }
+                  }
             }
             if (currentState == 1) {
                   SDL_LockAudioDevice(recordingDeviceId);
@@ -145,6 +166,7 @@ void recordMode() {
                   outter:
                         recData.BufferByteMaxPosition = recData.BufferBytePosition;
                         SDL_PauseAudioDevice(recordingDeviceId, SDL_TRUE);
+                        pause = false;
                         currentState++;
                   }
                   SDL_UnlockAudioDevice(recordingDeviceId);
@@ -157,6 +179,14 @@ void recordMode() {
                   }
                   SDL_UnlockAudioDevice(playbackDeviceId);
             }
+            if (pause) {
+                  SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
+                  SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
+                  SDL_RenderPresent(renderer);
+            }
+
+
+
             timer = (timer + 1) % 25;
             if (timer == 24) st = (st + 1) % 4;
       }
@@ -167,7 +197,7 @@ void recordMode() {
 
 
 bool cir_intersects(int xx,int yy,SDL_Rect recc){
-      int rad = pauserect.w / 2;
-      int x = pauserect.x + rad, y = pauserect.y + rad;
+      int rad = recc.w / 2;
+      int x = recc.x + rad, y = recc.y + rad;
       return (x - xx) * (x - xx) + (y - yy) * (y - yy) <= rad * rad;
 }

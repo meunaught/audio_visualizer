@@ -172,6 +172,24 @@ void musicMode(const char *file_stream) {
                              break;
                         }
                   }
+                  if (event.type == SDL_MOUSEBUTTONDOWN) {
+                        
+                        int xx, yy;
+                        SDL_GetMouseState(&xx, &yy);
+                        if (cir_intersects(xx,yy,pauserect)) {
+                              pause ^= 1;
+                              SDL_PauseAudioDevice(playDeviceId, pause);
+                        }
+                        if(cir_intersects(xx,yy,stoprect)){
+                              quit=1;
+                              break;
+                        }
+                  }
+            }
+            if (pause) {
+                  SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
+                  SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
+                  SDL_RenderPresent(renderer);
             }
             if (((WavData *)wav_spec.userdata) -> BufferByteSize == 0) {
                   SDL_PauseAudioDevice(playDeviceId, true);

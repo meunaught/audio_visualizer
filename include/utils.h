@@ -36,12 +36,14 @@ extern SDL_Surface *surf;
 extern SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 extern bool MODE, pause;
 
-extern SDL_Texture *tpause, *tplay;
-extern SDL_Rect pauserect;
+extern SDL_Texture *tpause, *tplay, *tstop;
+extern SDL_Rect pauserect, stoprect;
 
 
 #define max(a, b) (a > b ? a : b)
 #define min(a, b) (a < b ? a : b)
+
+
 struct complexData {
       fftw_plan plan;
       fftw_complex *in;
