@@ -57,8 +57,7 @@ void realTimeMode() {
             exit(1);
       }
       SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
-      bool quit = false;
-      pause = false;
+      bool quit = false,pause = false;
       while (!quit) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
@@ -102,7 +101,8 @@ void realTimeMode() {
 }
 
 void recordMode() {
-      int quit = 0, currentState = 0, st = 0, timer = 0;
+      int currentState = 0, st = 0, timer = 0;
+      bool quit = false, pause = false;
       load_rec_UI();
       while (!quit) {
             if (currentState == 1) {

@@ -17,7 +17,7 @@ SDL_Rect disp;
 SDL_Surface *surf;
 SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
-bool MODE = true, pause = false;
+bool MODE = true;
 
 int main(int argc, char **argv) {
       #ifdef OS2

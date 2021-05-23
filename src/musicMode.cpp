@@ -138,8 +138,7 @@ void musicMode(const char *file_stream) {
       }
 
       SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
-      bool quit = false, stop = false;
-      pause = false;
+      bool quit = false, stop = false, pause = false;
       while (!quit) {
             int height, width;
             SDL_GetWindowSize(window, &width, &height);
