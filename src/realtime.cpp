@@ -10,7 +10,7 @@ void realTimeMode() {
             exit(1);
       }
       SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
-      bool quit = false,pause = false;
+      bool quit = false, pause = false;
       while (!quit) {
             int height, width;
             SDL_GetWindowSize(window, &width, &height);
@@ -34,15 +34,14 @@ void realTimeMode() {
                         }
                   }
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
-                        
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
-                        if (cir_intersects(xx,yy,pauserect)) {
+                        if (cir_intersects(xx, yy, pauserect)) {
                               pause ^= 1;
                               SDL_PauseAudioDevice(recordingDeviceId, pause);
                         }
-                        if(cir_intersects(xx,yy,stoprect)){
-                              quit=1;
+                        if (cir_intersects(xx, yy, stoprect)) {
+                              quit = 1;
                               break;
                         }
                   }
@@ -51,7 +50,7 @@ void realTimeMode() {
                   pauserect.x = width / 100, pauserect.y = height / 100;
                   pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
 
-                  stoprect.x = width / 100 + pauserect.w + width/100, stoprect.y = height / 100;
+                  stoprect.x = width / 100 + pauserect.w + width / 100, stoprect.y = height / 100;
                   stoprect.w = min(width, height) / 10, stoprect.h = min(width, height) / 10;
 
                   SDL_RenderCopy(renderer, tplay, NULL, &pauserect);

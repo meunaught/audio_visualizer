@@ -1,11 +1,12 @@
 #include "utils.h"
 
-
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
       Uint16 val = 0x0;
 
-      if (format & 1 << 12) val = ((Uint16)bytebuffer[0] << 8) | (Uint16)bytebuffer[1];
-      else val = (Uint16)bytebuffer[0] | ((Uint16)bytebuffer[1] << 8);
+      if (format & 1 << 12)
+            val = ((Uint16)bytebuffer[0] << 8) | (Uint16)bytebuffer[1];
+      else
+            val = (Uint16)bytebuffer[0] | ((Uint16)bytebuffer[1] << 8);
 
       if (format & 1 << 15) return ((int16_t)val) / (double)(1 << 15);
 
@@ -20,7 +21,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       pauserect.x = width / 100, pauserect.y = height / 100;
       pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
 
-      stoprect.x = width / 100 + pauserect.w + width/100, stoprect.y = height / 100;
+      stoprect.x = width / 100 + pauserect.w + width / 100, stoprect.y = height / 100;
       stoprect.w = min(width, height) / 10, stoprect.h = min(width, height) / 10;
 
       int BARS = width / THICKNESS;

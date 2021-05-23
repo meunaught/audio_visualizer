@@ -42,9 +42,12 @@ int UI() {
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int x, y;
                         SDL_GetMouseState(&x, &y);
-                        if (opt1.x <= x && x <= opt1.x + opt1.w && opt1.y <= y && y <= opt1.y + opt1.h) val = 1, quit = true;
-                        else if (opt2.x <= x && x <= opt2.x + opt2.w && opt2.y <= y && y <= opt2.y + opt2.h) val = 2, quit = true;
-                        else if (opt3.x <= x && x <= opt3.x + opt3.w && opt3.y <= y && y <= opt3.y + opt3.h) val = 3, quit = true;
+                        if (opt1.x <= x && x <= opt1.x + opt1.w && opt1.y <= y && y <= opt1.y + opt1.h)
+                              val = 1, quit = true;
+                        else if (opt2.x <= x && x <= opt2.x + opt2.w && opt2.y <= y && y <= opt2.y + opt2.h)
+                              val = 2, quit = true;
+                        else if (opt3.x <= x && x <= opt3.x + opt3.w && opt3.y <= y && y <= opt3.y + opt3.h)
+                              val = 3, quit = true;
                   }
             }
 
@@ -87,89 +90,86 @@ int UI() {
       return val;
 }
 
-char* music_UI() {
-      char *file_stream=NULL;
-    SDL_Surface *surf;
-    SDL_Texture *text[50];
-    char name[50][100];
-    font = TTF_OpenFont("res/firaL.ttf", 800);
-    SDL_Color col = {232, 232, 232};
-    int cnt = 0;
-    DIR *dir;
-    dirent *ent;
-    char huh[50];
-    chdir("wav");
-    if ((dir = opendir(".")) != NULL) {
-        while ((ent = readdir(dir)) != NULL) {
-            int len = strlen(ent -> d_name);
-            if (len > 3 && ent -> d_name[len - 1] == 'v' 
-                && ent -> d_name[len - 2] == 'a' 
-                    && ent -> d_name[len - 3] == 'w' 
-                            && ent -> d_name[len - 4] == '.') {
-                strcpy(name[cnt], ent -> d_name);
-                strcpy(huh, name[cnt]);
-                huh[len - 4] = '\0';
-                char s[50] = "1) ";
-                s[0] += cnt;
-                strcat(s, huh);
-                surf = TTF_RenderText_Solid(font, s, col);
-                text[cnt] = SDL_CreateTextureFromSurface(renderer, surf);
-                cnt++;
+char *music_UI() {
+      char *file_stream = NULL;
+      SDL_Surface *surf;
+      SDL_Texture *text[50];
+      char name[50][100];
+      font = TTF_OpenFont("res/firaL.ttf", 800);
+      SDL_Color col = {232, 232, 232};
+      int cnt = 0;
+      DIR *dir;
+      dirent *ent;
+      char huh[50];
+      chdir("wav");
+      if ((dir = opendir(".")) != NULL) {
+            while ((ent = readdir(dir)) != NULL) {
+                  int len = strlen(ent->d_name);
+                  if (len > 3 && ent->d_name[len - 1] == 'v' && ent->d_name[len - 2] == 'a' && ent->d_name[len - 3] == 'w' && ent->d_name[len - 4] == '.') {
+                        strcpy(name[cnt], ent->d_name);
+                        strcpy(huh, name[cnt]);
+                        huh[len - 4] = '\0';
+                        char s[50] = "1) ";
+                        s[0] += cnt;
+                        strcat(s, huh);
+                        surf = TTF_RenderText_Solid(font, s, col);
+                        text[cnt] = SDL_CreateTextureFromSurface(renderer, surf);
+                        cnt++;
+                  }
             }
-        }
-        closedir(dir);
-    }
-    bool nquit = false;
-    int h, w;
-    SDL_Rect recc[cnt];
+            closedir(dir);
+      }
+      bool nquit = false;
+      int h, w;
+      SDL_Rect recc[cnt];
 
-    const char *head = "Select one of the following:";
-    SDL_Surface *newsurf=TTF_RenderText_Solid(font,head,col);
-    SDL_Texture *htext = SDL_CreateTextureFromSurface(renderer,newsurf);
-    if(htext==NULL) puts("Htext failed");
-    SDL_Rect hrect;
+      const char *head = "Select one of the following:";
+      SDL_Surface *newsurf = TTF_RenderText_Solid(font, head, col);
+      SDL_Texture *htext = SDL_CreateTextureFromSurface(renderer, newsurf);
+      if (htext == NULL) puts("Htext failed");
+      SDL_Rect hrect;
 
-    while (!nquit) {
-        SDL_GetWindowSize(window, &w, &h);
-        int val = h / 8;
-        for (int i = 0; i < cnt; ++i) {
-            recc[i].x = w / 100, recc[i].y = (i + 1) * (val + val / cnt);
-            int len = strlen(name[i]) - 4;
-            recc[i].w = (w * len) / 20, recc[i].h = val;
-        }
-
-        hrect.x = w / 100, hrect.y = h/100;
-        hrect.w = (w * 29) / 40, hrect.h = val;
-
-        SDL_RenderClear(renderer);
-
-        SDL_RenderCopy(renderer,htext,NULL,&hrect);
-
-        for (int i = 0; i < cnt; ++i) {
-            SDL_RenderCopy(renderer,text[i],NULL,&recc[i]);
-        }
-
-        SDL_RenderPresent(renderer);
-        SDL_Event eve;
-        while (SDL_PollEvent(&eve)) {
-            if (eve.type == SDL_QUIT) {
-                nquit = true;
+      while (!nquit) {
+            SDL_GetWindowSize(window, &w, &h);
+            int val = h / 8;
+            for (int i = 0; i < cnt; ++i) {
+                  recc[i].x = w / 100, recc[i].y = (i + 1) * (val + val / cnt);
+                  int len = strlen(name[i]) - 4;
+                  recc[i].w = (w * len) / 20, recc[i].h = val;
             }
-            if (eve.type == SDL_MOUSEBUTTONDOWN) {
-                int x, y; 
-                SDL_GetMouseState(&x, &y);
-                int id = -1;
-                for (int i = 0; i < cnt; ++i) {
-                    if (rect_intersects(x, y, recc[i])) {
-                        id = i;
-                        file_stream = name[i];
+
+            hrect.x = w / 100, hrect.y = h / 100;
+            hrect.w = (w * 29) / 40, hrect.h = val;
+
+            SDL_RenderClear(renderer);
+
+            SDL_RenderCopy(renderer, htext, NULL, &hrect);
+
+            for (int i = 0; i < cnt; ++i) {
+                  SDL_RenderCopy(renderer, text[i], NULL, &recc[i]);
+            }
+
+            SDL_RenderPresent(renderer);
+            SDL_Event eve;
+            while (SDL_PollEvent(&eve)) {
+                  if (eve.type == SDL_QUIT) {
                         nquit = true;
-                    }
-                }
+                  }
+                  if (eve.type == SDL_MOUSEBUTTONDOWN) {
+                        int x, y;
+                        SDL_GetMouseState(&x, &y);
+                        int id = -1;
+                        for (int i = 0; i < cnt; ++i) {
+                              if (rect_intersects(x, y, recc[i])) {
+                                    id = i;
+                                    file_stream = name[i];
+                                    nquit = true;
+                              }
+                        }
+                  }
             }
-        }
-    }
-    return file_stream;
+      }
+      return file_stream;
 }
 
 void rec_UI(int curr, int st) {
@@ -181,7 +181,7 @@ void rec_UI(int curr, int st) {
       pauserect.x = w / 100, pauserect.y = h / 100;
       pauserect.w = min(w, h) / 10, pauserect.h = min(w, h) / 10;
 
-      stoprect.x = w / 100 + pauserect.w + w/100, stoprect.y = h / 100;
+      stoprect.x = w / 100 + pauserect.w + w / 100, stoprect.y = h / 100;
       stoprect.w = min(w, h) / 10, stoprect.h = min(w, h) / 10;
 
       if (curr == 0) {
@@ -224,10 +224,8 @@ void rec_UI(int curr, int st) {
             SDL_RenderCopy(renderer, txp, NULL, &disp);
             SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
       }
-      
-      if(abs(curr) == 1) SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
-      
+
+      if (abs(curr) == 1) SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
+
       SDL_RenderPresent(renderer);
 }
-
-
