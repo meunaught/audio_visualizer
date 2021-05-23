@@ -48,9 +48,9 @@ bool cir_intersects(int xx, int yy, SDL_Rect recc) {
 }
 
 void load() {
-      surf = IMG_Load("res/pause.jpg");
+      surf = IMG_Load("res/pause.png");
       tpause = SDL_CreateTextureFromSurface(renderer, surf);
-      surf = IMG_Load("res/play.jpg");
+      surf = IMG_Load("res/play.png");
       tplay = SDL_CreateTextureFromSurface(renderer, surf);
       surf = IMG_Load("res/stop.png");
       tstop = SDL_CreateTextureFromSurface(renderer, surf);
@@ -93,8 +93,9 @@ void quit() {
 
       SDL_DestroyRenderer(renderer);
       SDL_DestroyWindow(window);
+
       window = NULL;
       renderer = NULL;
-
+      
       SDL_Quit();
 }

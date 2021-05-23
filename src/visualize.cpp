@@ -90,6 +90,7 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
             }
       }
       start = (start + 1) % 360;
+      
       SDL_RenderCopy(renderer, tpause, NULL, &pauserect);
       SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
       SDL_RenderPresent(renderer);

@@ -18,6 +18,7 @@ SDL_Surface *surf;
 SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
 SDL_Texture *tpause, *tplay, *tstop, *treplay;
+SDL_Texture *pauseTex;
 SDL_Rect pauserect, stoprect;
 
 bool MODE = true;
