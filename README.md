@@ -13,7 +13,6 @@
     * ```./musico -f Path_to_wav_file``` to play a certain song
     * ```./musico -r``` for recording and then playback
     * ```./musico -R``` for real time audio visualization
-* ```P.S.```: Please make sure that you're inputing the correct filename with the correct extension (which is ```.wav``` if you are wondering :))
 * Known Bugs:
-    * Window resizing doesn't work properly due to Microsoft's ```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
+    * Window resizing doesn't work on Windows due to Microsoft's ```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
 
