@@ -141,6 +141,8 @@ void musicMode(const char *file_stream) {
       bool quit = false, stop = false;
       pause = false;
       while (!quit) {
+            int height, width;
+            SDL_GetWindowSize(window, &width, &height);
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
                   if (event.type == SDL_QUIT) quit = true;
@@ -177,8 +179,21 @@ void musicMode(const char *file_stream) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
                         if (cir_intersects(xx,yy,pauserect)) {
-                              pause ^= 1;
-                              SDL_PauseAudioDevice(playDeviceId, pause);
+                              if(!stop) {
+                                    pause ^= 1;
+                                    SDL_PauseAudioDevice(playDeviceId, pause);
+                              }
+                              else {
+                                    stop = false;
+                                    audio -> Buffer = wav_buffer;
+                                    audio -> BufferByteSize = wav_length;
+                                    setDefaultSpec(wav_spec);
+                                    wav_spec.callback = wavCallBack;
+                                    wav_spec.userdata = audio;
+                                    audio -> format = wav_spec.format;
+                                    playDeviceId = SDL_OpenAudioDevice(NULL, 0, &wav_spec, &obtained, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+                                    SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
+                              }
                         }
                         if(cir_intersects(xx,yy,stoprect)){
                               quit=1;
@@ -187,6 +202,12 @@ void musicMode(const char *file_stream) {
                   }
             }
             if (pause) {
+                  pauserect.x = width / 100, pauserect.y = height / 100;
+                  pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
+
+                  stoprect.x = width / 100 + pauserect.w + width/100, stoprect.y = height / 100;
+                  stoprect.w = min(width, height) / 10, stoprect.h = min(width, height) / 10;
+
                   SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
                   SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
                   SDL_RenderPresent(renderer);
@@ -194,6 +215,18 @@ void musicMode(const char *file_stream) {
             if (((WavData *)wav_spec.userdata) -> BufferByteSize == 0) {
                   SDL_PauseAudioDevice(playDeviceId, true);
                   stop = true;
+                  //puts("STOPPED");
+            }
+            if (stop){
+                  //puts("replay render");
+                  //SDL_RenderClear(renderer);
+                  pauserect.x = width / 100, pauserect.y = height / 100;
+                  pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
+                  SDL_SetRenderDrawColor(renderer,0,0,0,255);
+                  SDL_RenderFillRect(renderer,&pauserect);
+                  SDL_RenderDrawRect(renderer,&pauserect);
+                  SDL_RenderCopy(renderer,treplay,NULL,&pauserect);
+                  SDL_RenderPresent(renderer);
             }
       }
       SDL_FreeWAV(wav_buffer);

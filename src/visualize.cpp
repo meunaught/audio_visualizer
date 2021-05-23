@@ -1,6 +1,6 @@
 #include "utils.h"
 
-SDL_Texture *tpause, *tplay, *tstop;
+SDL_Texture *tpause, *tplay, *tstop,*treplay;
 SDL_Rect pauserect,stoprect;
 
 void clearRenderer() {
@@ -203,6 +203,9 @@ void load() {
       tplay = SDL_CreateTextureFromSurface(renderer, surf);
       surf = IMG_Load("res/stop.png");
       tstop = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = IMG_Load("res/replay.png");
+      treplay = SDL_CreateTextureFromSurface(renderer, surf);
+      if(treplay==NULL) puts("Treplay Failed");
 }
 
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
