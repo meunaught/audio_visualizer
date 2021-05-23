@@ -60,6 +60,7 @@ void realTimeMode() {
                   SDL_RenderClear(renderer);
                   SDL_RenderCopy(renderer, pauseTex, NULL, NULL);
                   SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
+                  SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
                   SDL_RenderPresent(renderer);
             }
       }
