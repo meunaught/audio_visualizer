@@ -95,6 +95,7 @@ struct rgb {
 void load();
 void load_rec_UI();
 void rec_UI(int,int);
+char* music_UI();
 int UI();
 void clearRenderer();
 bool init();
@@ -109,7 +110,7 @@ void RecordingCallBack(void*, Uint8*, int);
 void PlaybackCallBack(void*, Uint8*, int);
 void changeMode();
 void setDefaultSpec(SDL_AudioSpec&);
-void musicMode(const char *);
+void musicMode(char *);
 void realTimeMode();
 void startRecording();
 void playRecordedData();

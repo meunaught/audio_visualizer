@@ -7,21 +7,7 @@ void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecor
       recData.BufferByteMaxPosition = MAX_RECORDING_SECONDS * bytesPerSecond;
       recData.Buffer = (Uint8 *)malloc(sizeof(Uint8) * recData.BufferByteSize);
       memset(recData.Buffer, 0, recData.BufferByteSize);
-}
-
-void RecordingCallBack(void *userdata, Uint8 *stream, int len) {
-      memcpy(recData.Buffer + recData.BufferBytePosition, stream, len);
-      recData.BufferBytePosition += len;
-}
-
-void PlaybackCallBack(void *userdata, Uint8 *stream, int len) {
-      visualizerOutput(stream, ReceivedPlaybackSpec.format);
-      memcpy(stream, recData.Buffer + recData.BufferBytePosition, len);
-      recData.BufferBytePosition += len;
-}
-
-void RealTimeCallBack(void *userdata, Uint8 *stream, int len) {
-      visualizerOutput(stream, ReceivedRecordingSpec.format);
+      recData.BufferBytePosition = 0;
 }
 
 void startRecording() {
@@ -47,64 +33,17 @@ void startRecording() {
       SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
 }
 
-void realTimeMode() {
-      SDL_AudioSpec desiredRecordingSpec;
-      setDefaultSpec(desiredRecordingSpec);
-      desiredRecordingSpec.callback = RealTimeCallBack;
-      recordingDeviceId = SDL_OpenAudioDevice(NULL, SDL_TRUE, &desiredRecordingSpec, &ReceivedRecordingSpec, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
-      if (recordingDeviceId == 0) {
-            printf("Failed to open recording device! SDL Error: %s", SDL_GetError());
-            exit(1);
-      }
-      SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
-      bool quit = false,pause = false;
-      while (!quit) {
-            SDL_Event event;
-            while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) quit = true;
-                  if (event.type == SDL_KEYDOWN) {
-                        switch (event.key.keysym.sym) {
-                              case SDLK_p:
-                                    pause ^= 1;
-                                    SDL_PauseAudioDevice(recordingDeviceId, pause);
-                                    break;
-                              case SDLK_q:
-                                    quit = 1;
-                                    break;
-                              case SDLK_m:
-                                    changeMode();
-                                    break;
-                              default:
-                                    break;
-                        }
-                  }
-                  if (event.type == SDL_MOUSEBUTTONDOWN) {
-                        
-                        int xx, yy;
-                        SDL_GetMouseState(&xx, &yy);
-                        if (cir_intersects(xx,yy,pauserect)) {
-                              pause ^= 1;
-                              SDL_PauseAudioDevice(recordingDeviceId, pause);
-                        }
-                        if(cir_intersects(xx,yy,stoprect)){
-                              quit=1;
-                              break;
-                        }
-                  }
-            }
-            if (pause) {
-                  SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
-                  SDL_RenderPresent(renderer);
-            }
-      }
-      SDL_CloseAudioDevice(recordingDeviceId);
-}
+
 
 void recordMode() {
       int currentState = 0, st = 0, timer = 0;
       bool quit = false, pause = false;
       load_rec_UI();
       while (!quit) {
+
+            int height, width;
+            SDL_GetWindowSize(window, &width, &height);
+
             if (currentState == 1) {
                   if (pause) rec_UI(-1, st);
                   else rec_UI(currentState, st);
@@ -117,29 +56,22 @@ void recordMode() {
                               startRecording();
                               currentState++;
                         }
-                  } else if (currentState == 1 && (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)) goto outter;
-                  else if (currentState == 1 && (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_p)) {
-                        pause ^= 1;
-                        st = 0;
-                        SDL_PauseAudioDevice(recordingDeviceId, pause);
-                  } else if (currentState == 2) {
+                  }
+                  if (currentState == 2) {
                         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n) {
                               currentState = 1;
                               createDefaultRecData(MAX_RECORDING_SECONDS, ReceivedRecordingSpec);
                               SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
-                        } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) currentState++;
-                  } else if (currentState == 3) {
+                        }
+                        else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) currentState++;
+                  }     
+                  if (currentState == 3) {
                         recData.BufferBytePosition = 0;
                         SDL_PauseAudioDevice(playbackDeviceId, SDL_FALSE);
                         currentState++;
-                  } else if (currentState == 5) {
-                        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n) {
-                              currentState = 1;
-                              clearRenderer();
-                              createDefaultRecData(MAX_RECORDING_SECONDS, ReceivedRecordingSpec);
-                              SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
-                        } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_r) currentState = 3;
-                        else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_q) quit = true;
+                  } 
+                  if (currentState == 5) {
+                        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_r) currentState = 3;
                   }
                   if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m) changeMode();
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -149,7 +81,11 @@ void recordMode() {
                         if (cir_intersects(xx,yy,pauserect)) {
                               pause ^= 1;
                               if(currentState==1) SDL_PauseAudioDevice(recordingDeviceId, pause);
-                              else SDL_PauseAudioDevice(playbackDeviceId, pause);
+                              else if(currentState==4) SDL_PauseAudioDevice(playbackDeviceId, pause);
+                              else if(currentState==5) {
+                                    currentState=3;
+                                    pause=false;
+                              }
                         }
                         if(cir_intersects(xx,yy,stoprect)){
                               if(currentState==1) goto outter;
@@ -180,11 +116,28 @@ void recordMode() {
                   SDL_UnlockAudioDevice(playbackDeviceId);
             }
             if (pause) {
+                  pauserect.x = width / 100, pauserect.y = height / 100;
+                  pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
+
+                  stoprect.x = width / 100 + pauserect.w + width/100, stoprect.y = height / 100;
+                  stoprect.w = min(width, height) / 10, stoprect.h = min(width, height) / 10;
+
                   SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
                   SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
                   SDL_RenderPresent(renderer);
             }
 
+            if (currentState==5){
+                  //puts("replay render");
+                  //SDL_RenderClear(renderer);
+                  pauserect.x = width / 100, pauserect.y = height / 100;
+                  pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
+                  SDL_SetRenderDrawColor(renderer,0,0,0,255);
+                  SDL_RenderFillRect(renderer,&pauserect);
+                  SDL_RenderDrawRect(renderer,&pauserect);
+                  SDL_RenderCopy(renderer,treplay,NULL,&pauserect);
+                  SDL_RenderPresent(renderer);
+            }
 
 
             timer = (timer + 1) % 25;
@@ -196,8 +149,3 @@ void recordMode() {
 }
 
 
-bool cir_intersects(int xx,int yy,SDL_Rect recc){
-      int rad = recc.w / 2;
-      int x = recc.x + rad, y = recc.y + rad;
-      return (x - xx) * (x - xx) + (y - yy) * (y - yy) <= rad * rad;
-}
