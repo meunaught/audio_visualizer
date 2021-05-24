@@ -8,18 +8,19 @@ int UI() {
       SDL_Texture *nwtext = NULL;
       nwtext = SDL_CreateTextureFromSurface(renderer, nwsurf);
 
-      font = TTF_OpenFont("res/pointy.ttf", 1500);
-      nwfont = TTF_OpenFont("res/rough.ttf", 1500);
+      font = TTF_OpenFont("res/pointy.ttf", 100);
+      nwfont = TTF_OpenFont("res/rough.ttf", 100);
 
       if (font == NULL) {
             return 0;
       }
       SDL_Color col = {232, 232, 232};
-      const char *title = "Audio Visualizer";
+      // const char *title = "Audio Visualizer";
       const char *op1 = "Play Music";
       const char *op2 = "Record Audio";
       const char *op3 = "Real Time Playback";
-      nwsurf = TTF_RenderText_Solid(font, title, col);
+      // nwsurf = TTF_RenderText_Solid(font, title, col);
+      nwsurf = IMG_Load("res/logo.png");
       SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, nwsurf);
       nwsurf = TTF_RenderText_Solid(nwfont, op1, col);
       SDL_Texture *text1 = SDL_CreateTextureFromSurface(renderer, nwsurf);
@@ -58,8 +59,8 @@ int UI() {
             rect2.w = 1912, rect2.h = h;
             st++;
             if (rect.x == 0) st = 0;
-            txrect.x = w / 7, txrect.y = h / 10;
-            txrect.w = 18 * w / 25, txrect.h = h / 10;
+            txrect.x = w / 7, txrect.y = h / 20;
+            txrect.w = 18 * w / 25, txrect.h = h / 7 + (h / 10 - h / 20);
 
             opt1.x = w / 3, opt1.y = h / 4 + h / 30;
             opt1.w = 10 * w / 30, opt1.h = h / 15;
