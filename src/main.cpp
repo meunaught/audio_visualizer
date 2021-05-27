@@ -57,15 +57,14 @@ int main(int argc, char **argv) {
 
       bool stop = false;
 
-      //while(!stop){
-            if (useMode == -1) useMode = UI();
+      if (useMode == -1) useMode = UI();
 
-            if (useMode == 1) musicMode(file_stream);
-            else if (useMode == 2) recordMode();
-            else if (useMode == 3) realTimeMode();
-            else printf("%s\n", SDL_GetError());
-            useMode = -1;
-      //}
+      if (useMode == 1) musicMode(file_stream);
+      else if (useMode == 2) recordMode();
+      else if (useMode == 3) realTimeMode();
+      else printf("%s\n", SDL_GetError());
+
+
       quit();
       return 0;
 }
