@@ -95,6 +95,10 @@ int UI() {
 char *music_UI() {
       char *file_stream = NULL;
       char const *lFilterPatterns[6] = { "*.wav", "*.txt", "*.text", "*.c", "*.h", "*.cpp" };
+      file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", NULL);
+      char script[1000] = "sh wav-dl.sh ";
+      strcat(script, file_stream);
+      system(script);
       file_stream = tinyfd_openFileDialog("Select file", "", 5, lFilterPatterns, NULL, 0);
       return file_stream;
 }

@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <math.h>
 #include <fftw3.h>
 #include <SDL2/SDL.h>
@@ -40,11 +41,8 @@ extern SDL_Rect pauserect, stoprect;
 
 extern bool MODE;
 
-
-
 #define max(a, b) (a > b ? a : b)
 #define min(a, b) (a < b ? a : b)
-
 
 struct complexData {
       fftw_plan plan;
