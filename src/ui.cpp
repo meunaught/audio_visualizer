@@ -1,5 +1,5 @@
-#include "utils.h"
 #include "tinyfiledialogs.h"
+#include "utils.h"
 
 int UI() {
       SDL_Surface *nwsurf = IMG_Load("res/stscr.png");
@@ -94,9 +94,21 @@ int UI() {
 
 char *music_UI() {
       char *file_stream = NULL;
-      char const *lFilterPatterns[6] = { "*.wav", "*.txt", "*.text", "*.c", "*.h", "*.cpp" };
+      char const *lFilterPatterns[6] = {"*.wav", "*.txt", "*.text", "*.c", "*.h", "*.cpp"};
       file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", NULL);
       char script[1000] = "sh wav-dl.sh ";
+#ifdef OS2
+      // script = "win.bat ";
+      script[0] = 'w';
+      script[1] = 'i';
+      script[2] = 'n';
+      script[3] = '.';
+      script[4] = 'b';
+      script[5] = 'a';
+      script[6] = 't';
+      script[7] = ' ';
+      script[8] = '\0';
+#endif
       strcat(script, file_stream);
       system(script);
       file_stream = tinyfd_openFileDialog("Select file", "", 5, lFilterPatterns, NULL, 0);
