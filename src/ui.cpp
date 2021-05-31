@@ -90,19 +90,18 @@ int UI() {
 char *music_UI() {
       bool download = tinyfd_messageBox("Musico", "Do you want to download an audio file from youtube?", "yesno", "question", 1);
       char *file_stream = NULL;
-      char const *lFilterPatterns[6] = {"*.wav", "*.txt", "*.text", "*.c", "*.h", "*.cpp"};
+      char const *lFilterPatterns[1] = {"*.wav"};
       if (download) {
-            file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", NULL);
-            char script[1000] = "sh wav-dl.sh ";
+            file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", " ");
+            char script[1000] = "youtube-dl -o \"wav/%(title)s.%(ext)s\" -ci -f 'bestaudio' -x --audio-format wav ";
 #ifdef OS2
-            char winscript[1000] = "win.bat ";
-            strcpy(script, winscript);
-
+            strcpy(script, "youtube-dl -x --audio-format wav --audio-quality 0 -o \"wav/%%(title)s.%%(ext)s\" ");
 #endif
             strcat(script, file_stream);
+            printf("%s\n", script);
             system(script);
       }
-      file_stream = tinyfd_openFileDialog("Select file", "", 5, lFilterPatterns, NULL, 0);
+      file_stream = tinyfd_openFileDialog("Select file", NULL, 1, lFilterPatterns, NULL, 0);
       return file_stream;
 }
 
