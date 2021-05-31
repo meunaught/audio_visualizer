@@ -1,6 +1,12 @@
 #include <tinyfiledialogs.h>
 #include <utils.h>
 
+#ifdef OS2
+#include <process.h>
+else 
+#include <stdlib.h>
+#endif
+
 int UI() {
       SDL_Surface *nwsurf = IMG_Load("res/stscr.png");
       if (nwsurf == NULL) {
@@ -93,12 +99,9 @@ char *music_UI() {
       char const *lFilterPatterns[1] = {"*.wav"};
       if (download) {
             file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", " ");
-            char script[1000] = "youtube-dl -o \"wav/%(title)s.%(ext)s\" -ci -f 'bestaudio' -x --audio-format wav ";
-#ifdef OS2
-            strcpy(script, "youtube-dl -x --audio-format wav --audio-quality 0 -o \"wav/%%(title)s.%%(ext)s\" ");
-#endif
+            char script[1000] = "youtube-dl -cix -o \"wav/%(title)s.%(ext)s\" --audio-format wav ";
             strcat(script, file_stream);
-            printf("%s\n", script);
+            strcat(script, " &");
             system(script);
       }
       file_stream = tinyfd_openFileDialog("Select file", NULL, 1, lFilterPatterns, NULL, 0);

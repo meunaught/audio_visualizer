@@ -134,4 +134,5 @@ void musicMode(char *file_stream) {
       }
       SDL_FreeWAV(wav_buffer);
       SDL_CloseAudioDevice(playDeviceId);
+      return;
 }

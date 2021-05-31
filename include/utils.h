@@ -6,7 +6,6 @@
 #include <assert.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <math.h>
 #include <fftw3.h>
 #include <SDL2/SDL.h>
