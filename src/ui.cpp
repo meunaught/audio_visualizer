@@ -95,8 +95,14 @@ char *music_UI() {
             file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", " ");
             char script[1000] = "youtube-dl -cix -o \"wav/%(title)s.%(ext)s\" --audio-format wav ";
             strcat(script, file_stream);
+#ifdef OS2
+            char winscript[1000] = "start ";
+            strcat(winscript, script);
+            system(winscript);
+#else
             strcat(script, " &");
             system(script);
+#endif
       }
       file_stream = tinyfd_openFileDialog("Select file", NULL, 1, lFilterPatterns, NULL, 0);
       return file_stream;
