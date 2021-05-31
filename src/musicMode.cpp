@@ -1,4 +1,4 @@
-#include "utils.h"
+#include <utils.h>
 
 void setDefaultSpec(SDL_AudioSpec &spec) {
       SDL_zero(spec);
@@ -27,7 +27,10 @@ void musicMode(char *file_stream) {
       if (file_stream == NULL) {
             file_stream = music_UI();
       }
-      if (file_stream == NULL) puts("NO FILE SELECTED");
+      if (file_stream == NULL) {
+            puts("NO FILE SELECTED");
+            return;
+      }
       SDL_AudioSpec wav_spec;
       SDL_AudioSpec obtained;
       Uint8 *wav_buffer;
@@ -60,34 +63,6 @@ void musicMode(char *file_stream) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
                   if (event.type == SDL_QUIT) quit = true, thaam = true;
-                  if (event.type == SDL_KEYDOWN) {
-                        switch (event.key.keysym.sym) {
-                              case SDLK_p:
-                                    pause ^= 1;
-                                    SDL_PauseAudioDevice(playDeviceId, pause);
-                                    break;
-                              case SDLK_q:
-                                    quit = 1;
-                                    break;
-                              case SDLK_m:
-                                    changeMode();
-                                    break;
-                              case SDLK_r:
-                                    if (stop) {
-                                          stop = false;
-                                          audio->Buffer = wav_buffer;
-                                          audio->BufferByteSize = wav_length;
-                                          setDefaultSpec(wav_spec);
-                                          wav_spec.callback = wavCallBack;
-                                          wav_spec.userdata = audio;
-                                          audio->format = wav_spec.format;
-                                          playDeviceId = SDL_OpenAudioDevice(NULL, 0, &wav_spec, &obtained, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
-                                          SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
-                                    }
-                              default:
-                                    break;
-                        }
-                  }
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);

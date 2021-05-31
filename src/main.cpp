@@ -1,4 +1,4 @@
-#include "utils.h"
+#include <utils.h>
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
@@ -17,7 +17,7 @@ SDL_Rect disp;
 SDL_Surface *surf;
 SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
-SDL_Texture *tpause, *tplay, *tstop, *treplay, *wavetex, *barstex;
+SDL_Texture *tstart, *tpause, *tplay, *tstop, *treplay, *wavetex, *barstex;
 SDL_Texture *pauseTex;
 SDL_Rect pauserect, stoprect, moderect;
 

@@ -1,5 +1,5 @@
-#include "tinyfiledialogs.h"
-#include "utils.h"
+#include <tinyfiledialogs.h>
+#include <utils.h>
 
 int UI() {
       SDL_Surface *nwsurf = IMG_Load("res/stscr.png");
@@ -95,15 +95,9 @@ char *music_UI() {
             file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", NULL);
             char script[1000] = "sh wav-dl.sh ";
 #ifdef OS2
-            script[0] = 'w';
-            script[1] = 'i';
-            script[2] = 'n';
-            script[3] = '.';
-            script[4] = 'b';
-            script[5] = 'a';
-            script[6] = 't';
-            script[7] = ' ';
-            script[8] = '\0';
+            char winscript[1000] = "win.bat ";
+            strcpy(script, winscript);
+
 #endif
             strcat(script, file_stream);
             system(script);
@@ -127,6 +121,8 @@ void rec_UI(int curr, int st) {
       if (curr == 0) {
             disp.x = w / 10, disp.y = h / 3 + h / 14;
             disp.w = 4 * w / 5, disp.h = h / 7;
+            SDL_RenderCopy(renderer, tstart, NULL, &pauserect);
+            SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
             SDL_RenderCopy(renderer, tx0, NULL, &disp);
       }
       if (curr == 1) {
@@ -156,13 +152,15 @@ void rec_UI(int curr, int st) {
       if (curr == 2) {
             disp.x = 5 * w / 16, disp.y = h / 3 + h / 14;
             disp.w = 3 * w / 8, disp.h = h / 7;
+            SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
+            SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
             SDL_RenderCopy(renderer, tx2, NULL, &disp);
       }
       if (curr == -1) {
             disp.x = w / 10, disp.y = h / 3 + h / 14;
             disp.w = 4 * w / 5, disp.h = h / 7;
             SDL_RenderCopy(renderer, txp, NULL, &disp);
-            SDL_RenderCopy(renderer, tplay, NULL, &pauserect);
+            SDL_RenderCopy(renderer, tstart, NULL, &pauserect);
       }
 
       if (abs(curr) == 1) SDL_RenderCopy(renderer, tstop, NULL, &stoprect);

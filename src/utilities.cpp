@@ -1,4 +1,4 @@
-#include "utils.h"
+#include <utils.h>
 
 bool init() {
       if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) return false;
@@ -49,7 +49,7 @@ bool cir_intersects(int xx, int yy, SDL_Rect recc) {
 
 
 void load_rec_UI() {
-      const char *r0 = "Press s to start";
+      const char *r0 = "Click to start recording";
       const char *r10 = "Recording";
       const char *r11 = "Recording.";
       const char *r12 = "Recording..";
@@ -84,6 +84,8 @@ void load() {
       surf = IMG_Load("res/replay.png");
       treplay = SDL_CreateTextureFromSurface(renderer, surf);
       if (treplay == NULL) puts("Treplay Failed");
+      surf = IMG_Load("res/start.png");
+      tstart = SDL_CreateTextureFromSurface(renderer, surf);
 
       surf = IMG_Load("res/wave.png");
       if (surf == NULL) puts("surf failed");

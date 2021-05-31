@@ -1,4 +1,4 @@
-#include "utils.h"
+#include <utils.h>
 
 void realTimeMode() {
       SDL_AudioSpec desiredRecordingSpec;
@@ -17,22 +17,6 @@ void realTimeMode() {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
                   if (event.type == SDL_QUIT) quit = true, thaam = true;
-                  if (event.type == SDL_KEYDOWN) {
-                        switch (event.key.keysym.sym) {
-                              case SDLK_p:
-                                    pause ^= 1;
-                                    SDL_PauseAudioDevice(recordingDeviceId, pause);
-                                    break;
-                              case SDLK_q:
-                                    quit = 1;
-                                    break;
-                              case SDLK_m:
-                                    changeMode();
-                                    break;
-                              default:
-                                    break;
-                        }
-                  }
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);

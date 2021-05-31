@@ -35,7 +35,7 @@ extern SDL_Rect disp;
 extern SDL_Surface *surf;
 extern SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
-extern SDL_Texture *tpause, *tplay, *tstop, *treplay;
+extern SDL_Texture *tpause, *tplay, *tstop, *treplay, *tstart;
 extern SDL_Texture *wavetex, *barstex;
 extern SDL_Texture *pauseTex;
 extern SDL_Rect pauserect, stoprect, moderect;

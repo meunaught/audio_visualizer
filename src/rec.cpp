@@ -1,4 +1,4 @@
-#include "utils.h"
+#include <utils.h>
 
 enum state {
       startscreen,
@@ -14,7 +14,7 @@ void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecor
       int bytesPerSecond = ReceivedRecordingSpec.freq * bytesPerSample;
       recData.BufferByteSize = (1 + MAX_RECORDING_SECONDS) * bytesPerSecond;
       recData.BufferByteMaxPosition = MAX_RECORDING_SECONDS * bytesPerSecond;
-      recData.Buffer = (Uint8 *)malloc(sizeof(Uint8) * recData.BufferByteSize);
+      recData.Buffer = (Uint8 *) malloc(sizeof(Uint8) * recData.BufferByteSize);
       memset(recData.Buffer, 0, recData.BufferByteSize);
       recData.BufferBytePosition = 0;
 }
@@ -60,34 +60,23 @@ void recordMode() {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
                   if (event.type == SDL_QUIT) quit = true, thaam = true;
-                  if (currentState == startscreen) {
-                        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s) {
-                              startRecording();
-                              currentState = recording;
-                        }
-                  }
-                  if (currentState == recorded) {
-                        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n) {
-                              currentState = recording;
-                              createDefaultRecData(MAX_RECORDING_SECONDS, ReceivedRecordingSpec);
-                              SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
-                        } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
-                              currentState = startplaying;
-                  }
-                  if (currentState == startplaying) {
-                        recData.BufferBytePosition = 0;
-                        SDL_PauseAudioDevice(playbackDeviceId, SDL_FALSE);
-                        currentState = playing;
-                  }
-                  if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m) changeMode();
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
                         if (cir_intersects(xx, yy, pauserect)) {
-                              pause ^= 1;
-                              if (currentState == recording)
+                              if(currentState == startscreen) {
+                                    startRecording();
+                                    currentState = recording;
+                              }
+                              else if(currentState == recorded) {
+                                    currentState = startplaying;
+                              }
+                              else if (currentState == recording) {
                                     SDL_PauseAudioDevice(recordingDeviceId, pause);
+                                    pause ^= 1;
+                              }
                               else if (currentState == playing) {
+                                    pause ^= 1;
                                     surf = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
                                     SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch);
                                     pauseTex = SDL_CreateTextureFromSurface(renderer, surf);
@@ -100,7 +89,7 @@ void recordMode() {
                         if (cir_intersects(xx, yy, stoprect)) {
                               if (currentState == recording)
                                     goto outter;
-                              else if (currentState == playing) {
+                              else if (currentState != startplaying) {
                                     quit = 1;
                                     break;
                               }
@@ -108,6 +97,11 @@ void recordMode() {
                         if (rect_intersects(xx, yy, moderect) && !pause) {
                               changeMode();
                         }
+                  }
+                  if (currentState == startplaying) {
+                        recData.BufferBytePosition = 0;
+                        SDL_PauseAudioDevice(playbackDeviceId, SDL_FALSE);
+                        currentState = playing;
                   }
             }
             if (currentState == recording) {
