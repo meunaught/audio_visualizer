@@ -1,12 +1,6 @@
 #include <tinyfiledialogs.h>
 #include <utils.h>
 
-#ifdef OS2
-#include <process.h>
-else 
-#include <stdlib.h>
-#endif
-
 int UI() {
       SDL_Surface *nwsurf = IMG_Load("res/stscr.png");
       if (nwsurf == NULL) {
