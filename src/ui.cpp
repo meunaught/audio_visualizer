@@ -16,18 +16,13 @@ int UI() {
             return 0;
       }
       SDL_Color col = {232, 232, 232};
-      // const char *title = "Audio Visualizer";
-      const char *op1 = "Play Music";
-      const char *op2 = "Record Audio";
-      const char *op3 = "Real Time Playback";
-      // nwsurf = TTF_RenderText_Solid(font, title, col);
-      nwsurf = IMG_Load("res/logo.png");
+      nwsurf = IMG_Load("res/cover.png");
       SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, nwsurf);
-      nwsurf = TTF_RenderText_Solid(nwfont, op1, col);
+      nwsurf = IMG_Load("res/playmusic.png");
       SDL_Texture *text1 = SDL_CreateTextureFromSurface(renderer, nwsurf);
-      nwsurf = TTF_RenderText_Solid(nwfont, op2, col);
+      nwsurf = IMG_Load("res/recordaudio.png");
       SDL_Texture *text2 = SDL_CreateTextureFromSurface(renderer, nwsurf);
-      nwsurf = TTF_RenderText_Solid(nwfont, op3, col);
+      nwsurf = IMG_Load("res/realtime.png");
       SDL_Texture *text3 = SDL_CreateTextureFromSurface(renderer, nwsurf);
 
       SDL_Rect rect, txrect, rect2, opt1, opt2, opt3;
@@ -39,7 +34,7 @@ int UI() {
       while (!quit) {
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) quit = true;
+                  if (event.type == SDL_QUIT) quit = true, thaam = true;
 
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int x, y;
@@ -61,16 +56,16 @@ int UI() {
             st++;
             if (rect.x == 0) st = 0;
             txrect.x = w / 7, txrect.y = h / 20;
-            txrect.w = 18 * w / 25, txrect.h = h / 7 + (h / 10 - h / 20);
+            txrect.w = 18 * w / 25, txrect.h = h / 7 + (h / 10 - h / 40);
 
             opt1.x = w / 3, opt1.y = h / 4 + h / 30;
             opt1.w = 10 * w / 30, opt1.h = h / 15;
 
-            opt2.x = w / 3, opt2.y = 3 * h / 8 + h / 30;
-            opt2.w = w / 3, opt2.h = h / 15;
+            opt2.x = 3 * w / 10, opt2.y = 3 * h / 8 + h / 40;
+            opt2.w = 2 * w / 5, opt2.h = h / 15;
 
-            opt3.x = w / 4, opt3.y = h / 2 + h / 30;
-            opt3.w = w / 2, opt3.h = h / 15;
+            opt3.x = w / 4, opt3.y = h / 2 + h / 80;
+            opt3.w = w / 2, opt3.h = h / 12;
 
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
             SDL_RenderClear(renderer);
@@ -93,24 +88,26 @@ int UI() {
 }
 
 char *music_UI() {
+      bool download = tinyfd_messageBox("Musico", "Do you want to download an audio file from youtube?", "yesno", "question", 1);
       char *file_stream = NULL;
       char const *lFilterPatterns[6] = {"*.wav", "*.txt", "*.text", "*.c", "*.h", "*.cpp"};
-      file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", NULL);
-      char script[1000] = "sh wav-dl.sh ";
+      if (download) {
+            file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", NULL);
+            char script[1000] = "sh wav-dl.sh ";
 #ifdef OS2
-      // script = "win.bat ";
-      script[0] = 'w';
-      script[1] = 'i';
-      script[2] = 'n';
-      script[3] = '.';
-      script[4] = 'b';
-      script[5] = 'a';
-      script[6] = 't';
-      script[7] = ' ';
-      script[8] = '\0';
+            script[0] = 'w';
+            script[1] = 'i';
+            script[2] = 'n';
+            script[3] = '.';
+            script[4] = 'b';
+            script[5] = 'a';
+            script[6] = 't';
+            script[7] = ' ';
+            script[8] = '\0';
 #endif
-      strcat(script, file_stream);
-      system(script);
+            strcat(script, file_stream);
+            system(script);
+      }
       file_stream = tinyfd_openFileDialog("Select file", "", 5, lFilterPatterns, NULL, 0);
       return file_stream;
 }

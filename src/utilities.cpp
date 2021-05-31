@@ -47,17 +47,6 @@ bool cir_intersects(int xx, int yy, SDL_Rect recc) {
       return (x - xx) * (x - xx) + (y - yy) * (y - yy) <= rad * rad;
 }
 
-void load() {
-      surf = IMG_Load("res/pause.png");
-      tpause = SDL_CreateTextureFromSurface(renderer, surf);
-      surf = IMG_Load("res/play.png");
-      tplay = SDL_CreateTextureFromSurface(renderer, surf);
-      surf = IMG_Load("res/stop.png");
-      tstop = SDL_CreateTextureFromSurface(renderer, surf);
-      surf = IMG_Load("res/replay.png");
-      treplay = SDL_CreateTextureFromSurface(renderer, surf);
-      if (treplay == NULL) puts("Treplay Failed");
-}
 
 void load_rec_UI() {
       const char *r0 = "Press s to start";
@@ -83,6 +72,28 @@ void load_rec_UI() {
       tx2 = SDL_CreateTextureFromSurface(renderer, surf);
       surf = TTF_RenderText_Solid(font, rp, col);
       txp = SDL_CreateTextureFromSurface(renderer, surf);
+}
+
+void load() {
+      surf = IMG_Load("res/pause.png");
+      tpause = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = IMG_Load("res/play.png");
+      tplay = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = IMG_Load("res/stop.png");
+      tstop = SDL_CreateTextureFromSurface(renderer, surf);
+      surf = IMG_Load("res/replay.png");
+      treplay = SDL_CreateTextureFromSurface(renderer, surf);
+      if (treplay == NULL) puts("Treplay Failed");
+
+      surf = IMG_Load("res/wave.png");
+      if (surf == NULL) puts("surf failed");
+      wavetex = SDL_CreateTextureFromSurface(renderer, surf);
+      if (wavetex == NULL) puts("wavetex failed");
+      surf = IMG_Load("res/bars.png");
+      if (surf == NULL) puts("surf failed");
+      barstex = SDL_CreateTextureFromSurface(renderer, surf);
+      if (barstex == NULL) puts("barstex failed");
+      load_rec_UI();
 }
 
 void quit() {

@@ -24,6 +24,9 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       stoprect.x = width / 100 + pauserect.w + width / 100, stoprect.y = height / 100;
       stoprect.w = min(width, height) / 10, stoprect.h = min(width, height) / 10;
 
+      moderect.w = 3 * width / 10, moderect.h = min(width, height) / 10;
+      moderect.x = width - moderect.w - width / 100, moderect.y = height / 100;
+
       int BARS = width / THICKNESS;
       MAX = (double *)malloc(sizeof(double) * BARS);
       actFreq = (double *)malloc(sizeof(double) * (BARS + 1));
@@ -93,6 +96,8 @@ void visualizerOutput(Uint8 *stream, SDL_AudioFormat format) {
       
       SDL_RenderCopy(renderer, tpause, NULL, &pauserect);
       SDL_RenderCopy(renderer, tstop, NULL, &stoprect);
+      if (!MODE) SDL_RenderCopy(renderer, wavetex, NULL, &moderect);
+      else SDL_RenderCopy(renderer, barstex, NULL, &moderect);
       SDL_RenderPresent(renderer);
       free(MAX), free(actFreq);
 }

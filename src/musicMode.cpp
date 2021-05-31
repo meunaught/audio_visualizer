@@ -59,7 +59,7 @@ void musicMode(char *file_stream) {
             SDL_GetWindowSize(window, &width, &height);
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) quit = true;
+                  if (event.type == SDL_QUIT) quit = true, thaam = true;
                   if (event.type == SDL_KEYDOWN) {
                         switch (event.key.keysym.sym) {
                               case SDLK_p:
@@ -113,6 +113,9 @@ void musicMode(char *file_stream) {
                         if (cir_intersects(xx, yy, stoprect)) {
                               quit = 1;
                               break;
+                        }
+                        if (rect_intersects(xx, yy, moderect) && !pause) {
+                              changeMode();
                         }
                   }
             }

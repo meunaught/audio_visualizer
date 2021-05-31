@@ -36,10 +36,12 @@ extern SDL_Surface *surf;
 extern SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
 extern SDL_Texture *tpause, *tplay, *tstop, *treplay;
+extern SDL_Texture *wavetex, *barstex;
 extern SDL_Texture *pauseTex;
-extern SDL_Rect pauserect, stoprect;
+extern SDL_Rect pauserect, stoprect, moderect;
 
 extern bool MODE;
+extern bool thaam;
 
 #define max(a, b) (a > b ? a : b)
 #define min(a, b) (a < b ? a : b)

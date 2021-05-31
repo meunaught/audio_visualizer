@@ -17,11 +17,12 @@ SDL_Rect disp;
 SDL_Surface *surf;
 SDL_Texture *tx0, *tx10, *tx11, *tx12, *tx13, *tx2, *txp;
 
-SDL_Texture *tpause, *tplay, *tstop, *treplay;
+SDL_Texture *tpause, *tplay, *tstop, *treplay, *wavetex, *barstex;
 SDL_Texture *pauseTex;
-SDL_Rect pauserect, stoprect;
+SDL_Rect pauserect, stoprect, moderect;
 
 bool MODE = true;
+bool thaam = false;
 
 int main(int argc, char **argv) {
 #ifdef OS2
@@ -55,15 +56,22 @@ int main(int argc, char **argv) {
             }
       }
 
-      bool stop = false;
+      while (!thaam) {
+            SDL_Event ev;
+            while (SDL_PollEvent(&ev)) {
+                  if (ev.type == SDL_QUIT) {
+                        thaam = true;
+                        break;
+                  }
+            }
+            if (useMode == -1) useMode = UI();
 
-      if (useMode == -1) useMode = UI();
-
-      if (useMode == 1) musicMode(file_stream);
-      else if (useMode == 2) recordMode();
-      else if (useMode == 3) realTimeMode();
-      else printf("%s\n", SDL_GetError());
-
+            if (useMode == 1) musicMode(file_stream);
+            else if (useMode == 2) recordMode();
+            else if (useMode == 3) realTimeMode();
+            else printf("%s\n", SDL_GetError());
+            useMode = -1;
+      }
 
       quit();
       return 0;

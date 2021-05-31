@@ -9,7 +9,6 @@ enum state {
       doneplaying
 };
 
-
 void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecordingSpec) {
       int bytesPerSample = ReceivedRecordingSpec.channels * (SDL_AUDIO_BITSIZE(ReceivedRecordingSpec.format) / 8);
       int bytesPerSecond = ReceivedRecordingSpec.freq * bytesPerSample;
@@ -45,9 +44,8 @@ void startRecording() {
 
 void recordMode() {
       int st = 0, timer = 0;
-      state currentState=startscreen;
+      state currentState = startscreen;
       bool quit = false, pause = false;
-      load_rec_UI();
       while (!quit) {
             int height, width;
             SDL_GetWindowSize(window, &width, &height);
@@ -61,11 +59,11 @@ void recordMode() {
                   rec_UI(currentState, st);
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) quit = true;
+                  if (event.type == SDL_QUIT) quit = true, thaam = true;
                   if (currentState == startscreen) {
                         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s) {
                               startRecording();
-                              currentState=recording;
+                              currentState = recording;
                         }
                   }
                   if (currentState == recorded) {
@@ -74,12 +72,12 @@ void recordMode() {
                               createDefaultRecData(MAX_RECORDING_SECONDS, ReceivedRecordingSpec);
                               SDL_PauseAudioDevice(recordingDeviceId, SDL_FALSE);
                         } else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
-                              currentState=startplaying;
+                              currentState = startplaying;
                   }
                   if (currentState == startplaying) {
                         recData.BufferBytePosition = 0;
                         SDL_PauseAudioDevice(playbackDeviceId, SDL_FALSE);
-                        currentState=playing;
+                        currentState = playing;
                   }
                   if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m) changeMode();
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -89,13 +87,12 @@ void recordMode() {
                               pause ^= 1;
                               if (currentState == recording)
                                     SDL_PauseAudioDevice(recordingDeviceId, pause);
-                              else if (currentState == playing){
+                              else if (currentState == playing) {
                                     surf = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
                                     SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch);
                                     pauseTex = SDL_CreateTextureFromSurface(renderer, surf);
                                     SDL_PauseAudioDevice(playbackDeviceId, pause);
-                              }      
-                              else if (currentState == doneplaying) {
+                              } else if (currentState == doneplaying) {
                                     currentState = startplaying;
                                     pause = false;
                               }
@@ -108,6 +105,9 @@ void recordMode() {
                                     break;
                               }
                         }
+                        if (rect_intersects(xx, yy, moderect) && !pause) {
+                              changeMode();
+                        }
                   }
             }
             if (currentState == recording) {
@@ -117,7 +117,7 @@ void recordMode() {
                         recData.BufferByteMaxPosition = recData.BufferBytePosition;
                         SDL_PauseAudioDevice(recordingDeviceId, SDL_TRUE);
                         pause = false;
-                        currentState=recorded;
+                        currentState = recorded;
                   }
                   SDL_UnlockAudioDevice(recordingDeviceId);
             }
@@ -128,7 +128,7 @@ void recordMode() {
                         SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch);
                         pauseTex = SDL_CreateTextureFromSurface(renderer, surf);
                         SDL_PauseAudioDevice(playbackDeviceId, SDL_TRUE);
-                        currentState=doneplaying;
+                        currentState = doneplaying;
                   }
                   SDL_UnlockAudioDevice(playbackDeviceId);
             }
@@ -139,7 +139,7 @@ void recordMode() {
                   stoprect.x = width / 100 + pauserect.w + width / 100, stoprect.y = height / 100;
                   stoprect.w = min(width, height) / 10, stoprect.h = min(width, height) / 10;
 
-                  if(pauseTex == NULL) puts("pauseTex failed");
+                  if (pauseTex == NULL) puts("pauseTex failed");
                   SDL_RenderClear(renderer);
                   SDL_RenderCopy(renderer, pauseTex, NULL, NULL);
 
@@ -149,12 +149,10 @@ void recordMode() {
             }
 
             if (currentState == doneplaying) {
-                  //puts("replay render");
-                  //SDL_RenderClear(renderer);
                   pauserect.x = width / 100, pauserect.y = height / 100;
                   pauserect.w = min(width, height) / 10, pauserect.h = min(width, height) / 10;
 
-                  if(pauseTex == NULL) puts("pauseTex failed");
+                  if (pauseTex == NULL) puts("pauseTex failed");
                   SDL_RenderClear(renderer);
                   SDL_RenderCopy(renderer, pauseTex, NULL, NULL);
 
