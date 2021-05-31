@@ -43,4 +43,5 @@
 *.app
 
 musico
+*.wav
 # End of https://www.toptal.com/developers/gitignore/api/c++
