@@ -16,4 +16,3 @@
     * ```./musico -R``` for real time audio visualization
 * Known Bugs:
     * Window resizing doesn't work on Windows due to Microsoft's ```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
-
