@@ -7,7 +7,7 @@
     * ```P.S.```: Make sure you have ```GLIB_C2.29``` or above (comes preinstalled from ```Ubuntu_19.04``` onwards)
     * or alternatively you can run install.sh
   * ```Windows 10```:
-    * run install.ps1 with powershell
+    * run ```install.ps1``` with powershell
     * [```minGW```](https://winlibs.com/) (```GCC 8.4.0 64-bit``` or above is recommended)
 * Compile with ```make```(works on any OS) 
 * Terminal usage:
