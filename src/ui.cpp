@@ -87,7 +87,7 @@ int UI() {
       return val;
 }
 
-char *music_UI() {
+char *musicUI() {
       bool download = tinyfd_messageBox("Musico", "Do you want to download an audio file from youtube?", "yesno", "question", 1);
       char *file_stream = NULL;
       char const *lFilterPatterns[1] = {"*.wav"};
@@ -108,7 +108,7 @@ char *music_UI() {
       return file_stream;
 }
 
-void rec_UI(int curr, int st) {
+void recUI(int curr, int st) {
       if (curr > 2) return;
       int h, w;
       SDL_GetWindowSize(window, &w, &h);

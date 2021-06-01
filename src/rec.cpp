@@ -51,19 +51,21 @@ void recordMode() {
             SDL_GetWindowSize(window, &width, &height);
 
             if (currentState == recording) {
-                  if (pause)
-                        rec_UI(-1, st);
-                  else
-                        rec_UI(currentState, st);
-            } else
-                  rec_UI(currentState, st);
+                  if (pause) {
+                        recUI(-1, st);
+                  } else {
+                        recUI(currentState, st);
+                  }
+            } else {
+                  recUI(currentState, st);
+            }
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
                   if (event.type == SDL_QUIT) quit = true, thaam = true;
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
-                        if (cir_intersects(xx, yy, pauserect)) {
+                        if (circleIntersects(xx, yy, pauserect)) {
                               if(currentState == startscreen) {
                                     startRecording();
                                     currentState = recording;
@@ -86,7 +88,7 @@ void recordMode() {
                                     pause = false;
                               }
                         }
-                        if (cir_intersects(xx, yy, stoprect)) {
+                        if (circleIntersects(xx, yy, stoprect)) {
                               if (currentState == recording)
                                     goto outter;
                               else if (currentState != startplaying) {
@@ -94,7 +96,7 @@ void recordMode() {
                                     break;
                               }
                         }
-                        if (rect_intersects(xx, yy, moderect) && !pause) {
+                        if (rectangleIntersects(xx, yy, moderect) && !pause) {
                               changeMode();
                         }
                   }

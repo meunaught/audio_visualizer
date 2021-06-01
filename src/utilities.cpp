@@ -37,18 +37,17 @@ void RealTimeCallBack(void *userdata, Uint8 *stream, int len) {
       visualizerOutput(stream, ReceivedRecordingSpec.format);
 }
 
-bool rect_intersects(int x, int y, SDL_Rect recc) {
+bool rectangleIntersects(int x, int y, SDL_Rect recc) {
       return recc.x <= x && x <= recc.x + recc.w && recc.y <= y && y <= recc.y + recc.h;
 }
 
-bool cir_intersects(int xx, int yy, SDL_Rect recc) {
+bool circleIntersects(int xx, int yy, SDL_Rect recc) {
       int rad = recc.w / 2;
       int x = recc.x + rad, y = recc.y + rad;
       return (x - xx) * (x - xx) + (y - yy) * (y - yy) <= rad * rad;
 }
 
-
-void load_rec_UI() {
+void loadRecUI() {
       const char *r0 = "Click to start recording";
       const char *r10 = "Recording";
       const char *r11 = "Recording.";
@@ -56,20 +55,28 @@ void load_rec_UI() {
       const char *r13 = "Recording...";
       const char *r2 = "Recorded";
       const char *rp = "Recording Paused";
+      
       SDL_Color col = {232, 232, 232};
       font = TTF_OpenFont("res/firaL.ttf", 300);
+      
       surf = TTF_RenderText_Solid(font, r0, col);
       tx0 = SDL_CreateTextureFromSurface(renderer, surf);
+      
       surf = TTF_RenderText_Solid(font, r10, col);
       tx10 = SDL_CreateTextureFromSurface(renderer, surf);
+      
       surf = TTF_RenderText_Solid(font, r11, col);
       tx11 = SDL_CreateTextureFromSurface(renderer, surf);
+      
       surf = TTF_RenderText_Solid(font, r12, col);
       tx12 = SDL_CreateTextureFromSurface(renderer, surf);
+      
       surf = TTF_RenderText_Solid(font, r13, col);
       tx13 = SDL_CreateTextureFromSurface(renderer, surf);
+      
       surf = TTF_RenderText_Solid(font, r2, col);
       tx2 = SDL_CreateTextureFromSurface(renderer, surf);
+      
       surf = TTF_RenderText_Solid(font, rp, col);
       txp = SDL_CreateTextureFromSurface(renderer, surf);
 }
@@ -95,7 +102,7 @@ void load() {
       if (surf == NULL) puts("surf failed");
       barstex = SDL_CreateTextureFromSurface(renderer, surf);
       if (barstex == NULL) puts("barstex failed");
-      load_rec_UI();
+      loadRecUI();
 }
 
 void quit() {

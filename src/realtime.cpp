@@ -20,18 +20,18 @@ void realTimeMode() {
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
-                        if (cir_intersects(xx, yy, pauserect)) {
+                        if (circleIntersects(xx, yy, pauserect)) {
                               surf = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
                               SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch);
                               pauseTex = SDL_CreateTextureFromSurface(renderer, surf);
                               pause ^= 1;
                               SDL_PauseAudioDevice(recordingDeviceId, pause);
                         }
-                        if (cir_intersects(xx, yy, stoprect)) {
+                        if (circleIntersects(xx, yy, stoprect)) {
                               quit = 1;
                               break;
                         }
-                        if (rect_intersects(xx, yy, moderect) && !pause) {
+                        if (rectangleIntersects(xx, yy, moderect) && !pause) {
                               changeMode();
                         }
                   }

@@ -95,14 +95,14 @@ struct rgb {
 };
 
 void load();
-void load_rec_UI();
-void rec_UI(int,int);
-char* music_UI();
+void loadRecUI();
+void recUI(int,int);
+char* musicUI();
 int UI();
 void clearRenderer();
 bool init();
-bool rect_intersects(int, int, SDL_Rect);
-bool cir_intersects(int,int,SDL_Rect);
+bool rectangleIntersects(int, int, SDL_Rect);
+bool circleIntersects(int,int,SDL_Rect);
 void createDefaultRecData(int, SDL_AudioSpec);
 double Get16bitAudioSample(Uint8*, SDL_AudioFormat);
 void visualizerOutput(Uint8*, SDL_AudioFormat);

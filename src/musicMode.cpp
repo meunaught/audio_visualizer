@@ -25,7 +25,7 @@ void wavCallBack(void *userData, Uint8 *stream, int len) {
 
 void musicMode(char *file_stream) {
       if (file_stream == NULL) {
-            file_stream = music_UI();
+            file_stream = musicUI();
       }
       if (file_stream == NULL) {
             puts("NO FILE SELECTED");
@@ -66,7 +66,7 @@ void musicMode(char *file_stream) {
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
-                        if (cir_intersects(xx, yy, pauserect)) {
+                        if (circleIntersects(xx, yy, pauserect)) {
                               if (!stop) {
                                     surf = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
                                     SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch);
@@ -85,11 +85,11 @@ void musicMode(char *file_stream) {
                                     SDL_PauseAudioDevice(playDeviceId, SDL_FALSE);
                               }
                         }
-                        if (cir_intersects(xx, yy, stoprect)) {
+                        if (circleIntersects(xx, yy, stoprect)) {
                               quit = 1;
                               break;
                         }
-                        if (rect_intersects(xx, yy, moderect) && !pause) {
+                        if (rectangleIntersects(xx, yy, moderect) && !pause) {
                               changeMode();
                         }
                   }
