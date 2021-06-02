@@ -93,6 +93,7 @@ char *musicUI() {
       char const *lFilterPatterns[1] = {"*.wav"};
       if (download) {
             file_stream = tinyfd_inputBox("Youtube URL", "Please input a working youtube URL", " ");
+            if(file_stream == NULL) return file_stream;
             char script[1000] = "youtube-dl -cix -o \"wav/%(title)s.%(ext)s\" --audio-format wav ";
             strcat(script, file_stream);
 #ifdef OS2
