@@ -16,3 +16,4 @@
     * ```./musico -R``` for real time audio visualization
 * Known Bugs:
     * Window resizing doesn't work on Windows due to Microsoft's ```OpenGL``` implementaion issue mentioned [here](https://github.com/libsdl-org/SDL/issues/1059)
+    * If the user delays at the youtube link dialogue box the program stops responding as both win32 and posix thread models consider holding the main thread for long as unresponsive. We probably need to work with multithreading to resolve this issue.
