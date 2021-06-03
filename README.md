@@ -6,7 +6,7 @@
     * Others : Install equaivalent packages of the above mentioned. 
     * ```P.S.```: Make sure you have ```GLIB_C2.29``` or above (comes preinstalled from ```Ubuntu_19.04``` onwards)
     * or alternatively you can run install.sh
-  * ```Windows 10```:
+  * ```Win64```:
     * run ```install.ps1``` with powershell
     * [```minGW```](https://winlibs.com/) (```GCC 64-bit with 'posix' thread model```)
     * You can install GCC with posix thread model by [```chocolatey```](https://chocolatey.org/) - ```choco install winlibs-llvm-free```
