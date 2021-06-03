@@ -9,7 +9,7 @@
   * ```Windows 10```:
     * run ```install.ps1``` with powershell
     * [```minGW```](https://winlibs.com/) (```GCC 64-bit with 'posix' thread model```)
-    * You can install GCC with posix thread model by ```chocolatey``` (https://chocolatey.org/) - ```choco install winlibs-llvm-free```
+    * You can install GCC with posix thread model by [```chocolatey```](https://chocolatey.org/) - ```choco install winlibs-llvm-free```
 * Compile with ```make```(works on any OS) 
 * Terminal usage:
     * ```./musico -f Path_to_wav_file``` to play a certain song
