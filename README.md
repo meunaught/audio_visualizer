@@ -8,7 +8,8 @@
     * or alternatively you can run install.sh
   * ```Windows 10```:
     * run ```install.ps1``` with powershell
-    * [```minGW```](https://winlibs.com/) (```GCC 8.4.0 64-bit``` or above is recommended)
+    * [```minGW```](https://winlibs.com/) (```GCC 64-bit with 'posix' thread model```)
+    * ```P.S.``` : You can install GCC with posix thread model by [```chocolatey```] (https://chocolatey.org/) - ```choco install winlibs-llvm-free```
 * Compile with ```make```(works on any OS) 
 * Terminal usage:
     * ```./musico -f Path_to_wav_file``` to play a certain song
