@@ -1,4 +1,5 @@
-#include <utils.h>
+#include <visual.h>
+#include <audio.h>
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;

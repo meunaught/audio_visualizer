@@ -1,4 +1,5 @@
-#include <utils.h>
+#include <visual.h>
+#include <audio.h>
 
 bool init() {
       if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) return false;

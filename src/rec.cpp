@@ -1,13 +1,5 @@
-#include <utils.h>
-
-enum state {
-      startscreen,
-      recording,
-      recorded,
-      startplaying,
-      playing,
-      doneplaying
-};
+#include <visual.h>
+#include <audio.h>
 
 void createDefaultRecData(int MAX_RECORDING_SECONDS, SDL_AudioSpec ReceivedRecordingSpec) {
       int bytesPerSample = ReceivedRecordingSpec.channels * (SDL_AUDIO_BITSIZE(ReceivedRecordingSpec.format) / 8);

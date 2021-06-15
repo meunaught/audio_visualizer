@@ -1,5 +1,6 @@
 #include <tinyfiledialogs.h>
-#include <utils.h>
+#include <visual.h>
+#include <audio.h>
 
 int UI() {
       SDL_Surface *nwsurf = IMG_Load("res/stscr.png");

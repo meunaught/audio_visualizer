@@ -1,4 +1,5 @@
-#include <utils.h>
+#include <visual.h>
+#include <audio.h>
 
 void realTimeMode() {
       SDL_AudioSpec desiredRecordingSpec;

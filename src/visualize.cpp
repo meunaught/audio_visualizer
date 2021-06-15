@@ -1,4 +1,5 @@
-#include <utils.h>
+#include <visual.h>
+#include <audio.h>
 
 double Get16bitAudioSample(Uint8 *bytebuffer, SDL_AudioFormat format) {
       Uint16 val = 0x0;

@@ -1,4 +1,5 @@
-#include <utils.h>
+#include <visual.h>
+#include <audio.h>
 
 void setDefaultSpec(SDL_AudioSpec &spec) {
       SDL_zero(spec);
