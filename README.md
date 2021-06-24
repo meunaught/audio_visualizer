@@ -1,4 +1,6 @@
 # audio_visualizer
+![Project Image](res/cover.png)
+
 * YouTube Link: https://youtu.be/W0MV3Ehnk0A
 * Library Pre-requisites : 
   * ```*nix```:
