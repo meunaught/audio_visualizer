@@ -94,6 +94,38 @@ void musicMode(char *file_stream) {
                               changeMode();
                         }
                   }
+                  else if(event.type == SDL_KEYDOWN) {
+                        switch (event.key.keysym.sym) {
+                        case SDLK_m:
+                              changeMode();
+                              break;
+                        case SDLK_q:
+                              quit = 1;
+                              break;
+                        case SDLK_SPACE:
+                              if(!stop) {
+                                    surf = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+                                    SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch);
+                                    pauseTex = SDL_CreateTextureFromSurface(renderer, surf);
+                                    pause ^= 1;
+                                    SDL_PauseAudioDevice(playDeviceId, pause);
+                              }
+                              else {
+                                    stop = false;
+                                    audio->Buffer = wav_buffer;
+                                    audio->BufferByteSize = wav_length;
+                                    setDefaultSpec(wav_spec);
+                                    wav_spec.callback = wavCallBack;
+                                    wav_spec.userdata = audio;
+                                    audio->format = wav_spec.format;
+                                    playDeviceId = SDL_OpenAudioDevice(NULL, 0, &wav_spec, &obtained, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+                                    SDL_PauseAudioDevice(playDeviceId, SDL_FALSE); 
+                              }
+                              break;
+                        default:
+                              break;
+                        }
+                  }
             }
             if (pause) {
                   pauserect.x = width / 100, pauserect.y = height / 100;

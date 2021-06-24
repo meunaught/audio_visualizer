@@ -92,6 +92,42 @@ void recordMode() {
                               changeMode();
                         }
                   }
+                  else if(event.type == SDL_KEYDOWN) {
+                        switch (event.key.keysym.sym) {
+                        case SDLK_m:
+                              changeMode();
+                              break;
+                        case SDLK_q:
+                              if(currentState == recording) goto outter;
+                              else if (currentState != startplaying) quit = 1;
+                              break;
+                        case SDLK_SPACE:
+                              if(currentState == startscreen) {
+                                    startRecording();
+                                    currentState = recording;
+                              }
+                              else if(currentState == recorded) {
+                                    currentState = startplaying;
+                              }
+                              else if (currentState == recording) {
+                                    pause ^= 1;
+                                    SDL_PauseAudioDevice(recordingDeviceId, pause);
+                              }
+                              else if (currentState == playing) {
+                                    pause ^= 1;
+                                    surf = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+                                    SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surf->pixels, surf->pitch);
+                                    pauseTex = SDL_CreateTextureFromSurface(renderer, surf);
+                                    SDL_PauseAudioDevice(playbackDeviceId, pause);
+                              } else if (currentState == doneplaying) {
+                                    currentState = startplaying;
+                                    pause = false;
+                              }
+                              break;
+                        default:
+                              break;
+                        }
+                  }
                   if (currentState == startplaying) {
                         recData.BufferBytePosition = 0;
                         SDL_PauseAudioDevice(playbackDeviceId, SDL_FALSE);
