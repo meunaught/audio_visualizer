@@ -1,4 +1,4 @@
-# audio_visualizer
+# Audio Visualizer
 ![Project Image](res/cover.png)
 
 * YouTube Link: https://youtu.be/W0MV3Ehnk0A
