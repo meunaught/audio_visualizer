@@ -7,7 +7,7 @@
     * Debian Based Distributions : 
        ```build-essential``` ```libsdl2-dev``` ```libsdl2-image-dev``` ```libsdl2-ttf-dev``` ```libfftw3-dev```
     * Others : Install equaivalent packages of the above mentioned. 
-    * ```youtube-dl``` and ```ffmpeg``` required for download feature
+    * ```youtube-dl``` and ```ffmpeg``` required for the download feature
     * Alternatively you can run ```install.sh```
     * ```P.S.```: Make sure you have ```GLIB_C2.29``` or above (comes preinstalled from ```Ubuntu_19.04``` onwards)
   * ```Win64```:
