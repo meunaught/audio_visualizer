@@ -2,6 +2,8 @@
 #define VISUAL_H
 
 #include <utils.h>
+#include <visual_data.h>
+#include <visual_struct.h>
 
 extern complexData data;
 
@@ -25,7 +27,5 @@ bool rectangleIntersects(int, int, SDL_Rect);
 bool circleIntersects(int,int,SDL_Rect);
 void clearRenderer();
 
-double Get16bitAudioSample(Uint8*, SDL_AudioFormat);
-void visualizerOutput(Uint8*, SDL_AudioFormat);
 
 #endif

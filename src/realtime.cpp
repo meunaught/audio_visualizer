@@ -17,7 +17,7 @@ void realTimeMode() {
             SDL_GetWindowSize(window, &width, &height);
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) quit = true, thaam = true;
+                  if (event.type == SDL_QUIT) quit = true, finish = true;
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);

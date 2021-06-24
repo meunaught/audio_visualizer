@@ -53,7 +53,7 @@ void recordMode() {
             }
             SDL_Event event;
             while (SDL_PollEvent(&event)) {
-                  if (event.type == SDL_QUIT) quit = true, thaam = true;
+                  if (event.type == SDL_QUIT) quit = true, finish = true;
                   if (event.type == SDL_MOUSEBUTTONDOWN) {
                         int xx, yy;
                         SDL_GetMouseState(&xx, &yy);
@@ -66,8 +66,8 @@ void recordMode() {
                                     currentState = startplaying;
                               }
                               else if (currentState == recording) {
-                                    SDL_PauseAudioDevice(recordingDeviceId, pause);
                                     pause ^= 1;
+                                    SDL_PauseAudioDevice(recordingDeviceId, pause);
                               }
                               else if (currentState == playing) {
                                     pause ^= 1;

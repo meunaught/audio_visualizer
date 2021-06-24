@@ -23,7 +23,7 @@ SDL_Texture *pauseTex;
 SDL_Rect pauserect, stoprect, moderect;
 
 bool MODE = true;
-bool thaam = false;
+bool finish = false;
 
 int main(int argc, char **argv) {
 #ifdef OS2
@@ -57,11 +57,11 @@ int main(int argc, char **argv) {
             }
       }
 
-      while (!thaam) {
+      while (!finish) {
             SDL_Event ev;
             while (SDL_PollEvent(&ev)) {
                   if (ev.type == SDL_QUIT) {
-                        thaam = true;
+                        finish = true;
                         break;
                   }
             }
