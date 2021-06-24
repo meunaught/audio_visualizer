@@ -18,7 +18,7 @@
     * ```./musico -r``` for recording and then playback
     * ```./musico -R``` for real time audio visualization
 * Key-Bindings:
-    * pause/play/replay/start: ```Space```
+    * pause/play/replay/start: ```space```
     * stop/quit: ```q```
     * changemode: ```m```
 * Known Bugs:
