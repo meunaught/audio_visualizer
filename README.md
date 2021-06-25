@@ -14,7 +14,7 @@
     * run ```install.ps1``` with powershell
     * [```minGW```](https://winlibs.com/) (```GCC 64-bit with 'posix' thread model```)
     * You can install GCC with posix thread model with [```chocolatey```](https://chocolatey.org/) - ```choco install winlibs-llvm-free```
-* Compile with ```make``` 
+* Compile with ```make``` and run with ```./musico``` 
 * Terminal usage:
     * ```./musico -f Path_to_wav_file``` to play a certain song
     * ```./musico -r``` for recording and then playback
