@@ -1,5 +1,6 @@
 # Audio Visualizer
-![Project Image](res/cover.png)
+![Project Cover](res/cover.png)
+> An SDL based Audio Visualizer using the fftw3 library
 
 * YouTube Link: https://youtu.be/W0MV3Ehnk0A
 * Library Pre-requisites : 
